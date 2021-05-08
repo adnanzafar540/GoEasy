@@ -33,7 +33,6 @@ import static com.example.newawareness.Utilities.Utilities.getWeatherItemFromInd
 import static com.example.newawareness.Utilities.Utilities.getWeatherList;
 
 public class MainActivity extends AppCompatActivity {
-
     DatabaseActivity mdatabaseHelper;
     EditText Situation_Name;
     TextView tv_Headphone, tv_Weather, tv_PhysicalActivity,  tv_location;
