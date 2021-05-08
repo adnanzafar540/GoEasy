@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     boolean is_situationNameExist;
     boolean is_actionSelected;
 
+
     @Override
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {

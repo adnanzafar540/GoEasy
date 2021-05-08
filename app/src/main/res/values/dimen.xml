@@ -1,2 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <dimen name="first_page_drawable_width">35dp</dimen>
+    <dimen name="savedsituation_drawable_width">20dp</dimen>
+    <dimen name="savedsituation_drawable_height">20dp</dimen>
+    <dimen name="Second_page_Text_Size">40sp</dimen>
+    <dimen name="savedsitautions__Text_Size">15sp</dimen>
+    <dimen name="imageview_margin_left">10dp</dimen>
+    <dimen name="etv_situation_name_textsize">30dp</dimen>
+    <dimen name="situation_name_padding_left">10dp</dimen>
+    <dimen name="situation_padding_top">10dp</dimen>
+    <dimen name="textview_padding_left">20dp</dimen>
+    <dimen name="textview_text_size">30sp</dimen>
+    <dimen name="chose_state_textview_text_size">25dp</dimen>
+    <dimen name="chose_state_padding_left">65dp</dimen>
+    <dimen name="imageview_margin_top">10dp</dimen>
+    <dimen name="button_margin_left">10dp</dimen>
+    <dimen name="button_margin_top">25dp</dimen>
+    <dimen name="button_padding_top">5dp</dimen>
+    <dimen name="button_text_size">25dp</dimen>
+    <dimen name="linear_layout_margin_top">5dp</dimen>
+    <dimen name="linear_layout_margin_Right">5dp</dimen>
+    <dimen name="linear_layout_margin_left">5dp</dimen>
+    <dimen name="button_layout_height">80dp</dimen>
+    <dimen name="savedsitautions_layout_margin_top">20dp</dimen>
+    <dimen name="savedsitautions_imageview_padding_top">10dp</dimen>
+    <dimen name="savedsitautions_layout_margin_left">10dp</dimen>
+    <dimen name="savedsitautions_Switch_margin_left">130dp</dimen>
+    <dimen name="mainactivity_button_layout_width">310dp</dimen>
+
+</resources>
