@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">New Awareness</string>
+    <string name="headphone_state">Headphone State</string>
+    <string name="Chose_State">Choose State</string>
+    <string name="Select_Action">Select Action</string>
+    <string name="Time_state">Time State</string>
+    <string name="PhysicalActivity_State">Physical Activity State</string>
+    <string name="Location_state">Location State</string>
+    <string name="Weather_State">Weather State</string>
+    <string name="Situation_Name">Situation Name</string>
+    <string name="Open_Gallery">Open:Gallery</string>
+    <string name="plug_StateIn">Plugged In</string>
+    <string name="plug_StateOut">Plugged Out</string>
+
+    <color name="MainBackground_Color">#2196f3</color>
+    <color name="Text_color">#ffffff</color>
+    <color name="miniText_color">#e6e600</color>
+    <string name="title_activity_maps">Map</string>
+
+
+
+</resources>
