@@ -34,11 +34,7 @@ public class DatabaseActivity extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //db.execSQL("CREATE TABLE IF NOT EXISTS" + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT,EMAIL TEXT,USERNAME TEXT,PASSWORD TEXT)");
-
         String Table = "CREATE TABLE " + TABLE_NAME +
-                //  "(id integer primary key, "+COL_1+ "text,"phone text,email text, street text,place text)";
-
                 " (id integer primary key," + COL_1 + " VARCHAR," +
                 COL_2 + " VARCHAR," + COL_3 + " VARCHAR," +
                 COL_4 + " VARCHAR," + COL_5 + " VARCHAR," + COL_6
@@ -89,12 +85,9 @@ public class DatabaseActivity extends SQLiteOpenHelper {
             object_situation.setWeather(cursor.getInt(2));
             object_situation.setActivity(cursor.getInt(3));
             object_situation.setTime(cursor.getString(4));
-            ;
             object_situation.setDate(cursor.getString(5));
             object_situation.setAppname(cursor.getString(6));
-
             object_situation.setNotification(cursor.getString(7));
-
             object_situation.setLocationname(cursor.getString(8));
             object_situation.setAction(cursor.getInt(9));
             object_situation.setSituationname(cursor.getString(10));

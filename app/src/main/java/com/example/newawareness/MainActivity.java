@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     boolean is_situationNameExist;
     boolean is_actionSelected;
 
-
     @Override
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         object_situation = new ObjectSituationActivity();
         getWidgets();
         Click_Listners();
+
+
     }
 
     public void getWidgets() {
@@ -69,18 +70,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void Click_Listners() {
-        
         Situation_Name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String SituationName = Situation_Name.getText().toString();
                 object_situation.setSituationname(SituationName);
                 is_situationNameExist=true;
-
             }
         });
-
-
 
         btn_addSituation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,12 +88,12 @@ public class MainActivity extends AppCompatActivity {
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     finishAffinity();
                     startActivity(i);
+                    FenceActivity fenceActivity=new FenceActivity();
+                   //fenceActivity.createFence(object_situation.setAction());
                 }
                 else{
                     Toast.makeText(MainActivity.this, "Please Enter Situation Name and Select Action ", Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
         btn_ShowSituations.setOnClickListener(new View.OnClickListener() {
