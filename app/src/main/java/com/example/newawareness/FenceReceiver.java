@@ -12,7 +12,6 @@ public class FenceReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         FenceState fenceState = FenceState.extract(intent);
-
         switch (fenceState.getCurrentState()) {
             case FenceState.TRUE:
                 Log.i(TAG, "User is walking");

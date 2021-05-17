@@ -84,7 +84,7 @@ public class DatabaseActivity extends SQLiteOpenHelper {
             object_situation.setHeadphone(cursor.getInt(1));
             object_situation.setWeather(cursor.getInt(2));
             object_situation.setActivity(cursor.getInt(3));
-            object_situation.setTime(cursor.getString(4));
+            object_situation.setTime(cursor.getLong(4));
             object_situation.setDate(cursor.getString(5));
             object_situation.setAppname(cursor.getString(6));
             object_situation.setNotification(cursor.getString(7));

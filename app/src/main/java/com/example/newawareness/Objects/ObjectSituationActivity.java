@@ -9,7 +9,8 @@ public class ObjectSituationActivity {
     String appname;
     String minutes;
     String hours;
-    String situationname, locationname, time, date, notification;
+    String situationname, locationname,date, notification;
+    long time;
     Double lat;
     Double longi;
     String headphone_txt;
@@ -99,11 +100,11 @@ public class ObjectSituationActivity {
         this.locationname = locationname;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

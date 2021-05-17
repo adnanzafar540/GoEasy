@@ -18,16 +18,19 @@ public class Utilities {
     public static String[] getWeatherList() {
         return new String[]{"Clear", "Cloudy", "Foggy", "Hazy", "Icy", "Rainy", "Snowy", "Stormy", "Windy"};
     }
-
     public static String getWeatherItemFromIndexNumber(int index) {
         String item = getWeatherList()[index];
         return item;
     }
-
-    public static String[] getPhysicalActivityList() {
-        return new String[]{"In Vehicle", "On Bicycle", "On Foot", "Running", "Still", "Tilting", "Walking"};
+    public static int getIndexPhysicalActivitydetected(int index){
+        if(index==4 || index ==5){
+            return index +3;
+        }
+            return index;
     }
-
+    public static String[] getPhysicalActivityList() {
+        return new String[]{"In Vehicle", "On Bicycle", "On Foot", "Still", "Walking","Running"};
+    }
     public static String getPhysicalActivityItemFromIndexNumber(int index) {
         String item = getPhysicalActivityList()[index];
         return item;

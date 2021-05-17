@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="@dimen/linear_layout_margin_left"
             android:layout_marginRight="@dimen/linear_layout_margin_Right"
             android:background="@color/MainBackground_Color"
@@ -170,6 +171,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/textview_padding_left"
+                    android:paddingRight="10dp"
                     android:text="@string/PhysicalActivity_State"
                     android:textColor="@color/Text_color"
                     android:textSize="@dimen/textview_text_size"></TextView>
@@ -218,7 +220,7 @@
                     android:id="@+id/btn_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/button_margin_left"
+
                     android:background="@color/miniText_color"
                     android:text="DATE"
                     >>
@@ -270,6 +272,7 @@
             android:background="@drawable/button_rounded"
             android:paddingTop="@dimen/button_padding_top"
             android:text="SHOW SITUATIONS"
+            android:layout_marginBottom="10dp"
             android:textSize="@dimen/button_text_size">
             >
         </Button>

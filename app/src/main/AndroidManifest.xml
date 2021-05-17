@@ -12,8 +12,10 @@
     -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+
 
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
 
@@ -29,6 +31,8 @@
     <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
 
+
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -40,11 +44,15 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+<meta-data
+    android:configChanges="orientation|screenSize"
+>
+</meta-data>
 
-            ...
-            <meta-data
+        <meta-data
                 android:name="com.google.android.awareness.API_KEY"
-                android:value="<var>]AIzaSyA7ZXSXYD0fYauIlAt6NGOMyY1Cdn9Ebb8</var>"/>
+                android:value="AIzaSyA7ZXSXYD0fYauIlAt6NGOMyY1Cdn9Ebb8"/>
+
 
         <activity
             android:name=".MapsActivity"
