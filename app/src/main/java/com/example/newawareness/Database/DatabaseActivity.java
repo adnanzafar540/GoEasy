@@ -6,10 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.newawareness.Objects.ObjectSituationActivity;
+import com.example.newawareness.Objects.ObjectSituation;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.os.Build.ID;
 
 public class DatabaseActivity extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Database";
@@ -48,7 +51,13 @@ public class DatabaseActivity extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(ObjectSituationActivity object_situation) {
+   public void latestPrimarykey(){
+        String latestPrimaryKey=SELECT * FROM+TABLE_NAME+
+       WHERE ID = (
+               SELECT MAX(ID) FROM +TABLE_NAME);
+   }
+
+    public boolean insertData(ObjectSituation object_situation) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -71,16 +80,16 @@ public class DatabaseActivity extends SQLiteOpenHelper {
             return true;
     }
 
-    public List<ObjectSituationActivity> readAllData() {
+    public List<ObjectSituation> readAllData() {
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = null;
-        List<ObjectSituationActivity> list = new ArrayList<>();
+        List<ObjectSituation> list = new ArrayList<>();
         if (db != null) {
             cursor = db.rawQuery(query, null);
         }
         while ((cursor.moveToNext())) {
-            ObjectSituationActivity object_situation = new ObjectSituationActivity();
+            ObjectSituation object_situation = new ObjectSituation();
             object_situation.setHeadphone(cursor.getInt(1));
             object_situation.setWeather(cursor.getInt(2));
             object_situation.setActivity(cursor.getInt(3));

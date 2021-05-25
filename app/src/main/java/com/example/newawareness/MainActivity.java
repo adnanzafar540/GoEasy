@@ -1,28 +1,39 @@
 package com.example.newawareness;
 
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.newawareness.Database.DatabaseActivity;
-import com.example.newawareness.Objects.ObjectSituationActivity;
+import com.example.newawareness.Objects.ObjectSituation;
+import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
+import com.google.android.gms.awareness.fence.FenceUpdateRequest;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,12 +49,13 @@ import static com.example.newawareness.Utilities.Utilities.getWeatherItemFromInd
 import static com.example.newawareness.Utilities.Utilities.getWeatherList;
 
 public class MainActivity extends AppCompatActivity {
-    long start = System.currentTimeMillis();
+    long start = 500;
+    Switch Switch;
     DatabaseActivity mdatabaseHelper;
     EditText Situation_Name;
     TextView tv_Headphone, tv_Weather, tv_PhysicalActivity, tv_location;
     Button btn_Date, btn_Time, btn_Action, btn_addSituation, btn_ShowSituations;
-    ObjectSituationActivity object_situation;
+    ObjectSituation object_situation;
     boolean is_situationNameExist;
     boolean is_actionSelected;
     boolean is_WeatherSelected;
@@ -52,7 +64,10 @@ public class MainActivity extends AppCompatActivity {
     boolean is_HeadphonESelected;
     boolean is_DateSelected;
     boolean is_TimeSelected;
-
+    private static final String FENCE_RECEIVER_ACTION = BuildConfig.APPLICATION_ID +
+            "FENCE_RECEIVER_ACTION";
+    private static final String FENCE_KEY_PhysicalActivity = "PhysicalActivity";
+    private PendingIntent mPendingIntent;
 
     @Override
 
@@ -60,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         mdatabaseHelper = new DatabaseActivity(this);
-        object_situation = new ObjectSituationActivity();
+        object_situation = new ObjectSituation();
         getWidgets();
         Click_Listners();
 
@@ -79,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         btn_Action = (Button) findViewById(R.id.btn_Acction);
         btn_addSituation = (Button) findViewById(R.id.btn_addSituation);
         btn_ShowSituations = (Button) findViewById(R.id.btn_showSituations);
+        Switch=(Switch)findViewById(R.id.Simpleswitch);
     }
 
 
@@ -106,22 +122,23 @@ public class MainActivity extends AppCompatActivity {
 
                 ArrayList<AwarenessFence> list=new ArrayList<AwarenessFence>();
 
+                //  if ((is_situationNameExist && is_actionSelected) && (is_activitySelected || is_DateSelected || is_HeadphonESelected || is_locationSelected || is_TimeSelected || is_WeatherSelected
                 if ((is_situationNameExist && is_actionSelected) && (is_activitySelected || is_DateSelected || is_HeadphonESelected || is_locationSelected || is_TimeSelected || is_WeatherSelected
                 )) {
                     if(is_HeadphonESelected){
-                        list.add(FenceCreateUtilites.createHeadphonrFence(object_situation.getHeadphone()));
+                        list.add(FenceCreateUtilites.createHeadphonrFence(object_situation.getHeadphone()+1));
                     }
                     if(is_activitySelected){
-                        list.add(FenceCreateUtilites.createHeadphonrFence(getIndexPhysicalActivitydetected(object_situation.getActivity())));
+                        list.add(FenceCreateUtilites.createphysicalactivityFence(getIndexPhysicalActivitydetected(object_situation.getActivity())));
                     }
                     if (is_locationSelected){
-                        list.add(FenceCreateUtilites.createLocationFence(object_situation.getLongi(),object_situation.getLat(),50,start,MainActivity.this));
+                        list.add(FenceCreateUtilites.createLocationFence(object_situation.getLongi(),object_situation.getLat(),1000,start,MainActivity.this));
                     }
                     if(is_TimeSelected){
                         list.add(FenceCreateUtilites.createTimeDateFence(object_situation.getTime(),object_situation.getTime(),MainActivity.this));
                     }
-
-                    FenceCreateUtilites.registerUpdateFinalFence(FenceCreateUtilites.createTimeDateFence(object_situation.getTime(),object_situation.getTime(),MainActivity.this),MainActivity.this);
+                    AwarenessFence finalFence = FenceCreateUtilites.getFinalFence(list);
+                    registerUpdateFinalFence(finalFence,MainActivity.this);
 
 
                     mdatabaseHelper.insertData(object_situation);
@@ -346,9 +363,28 @@ public class MainActivity extends AppCompatActivity {
             is_locationSelected = true;
         }
     }
+    public  void registerUpdateFinalFence(AwarenessFence FinalFence, Context context){
+       FenceReceiver mFenceReceiver = new FenceReceiver();
+        GoogleApiClient client = new GoogleApiClient.Builder(context)
+                .addApi(Awareness.API)
+                .build();
+        client.connect();
+        //find latest primary key from DDB
+        mPendingIntent = PendingIntent.getBroadcast(context, 0,
+                new Intent(FENCE_RECEIVER_ACTION), 0);
+        registerReceiver(mFenceReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
+        Awareness.getFenceClient(context).updateFences( new FenceUpdateRequest.Builder()
+                .addFence(object_situation.getSituationname(), FinalFence, mPendingIntent)
+                .build())
+                .addOnSuccessListener( new OnSuccessListener<Void>() {
+                    @Override public void onSuccess(Void aVoid) {
+                        Log.i(FENCE_KEY_PhysicalActivity, "Successfully registered.");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override public void onFailure(@NonNull Exception e) {
+                        Log.e(FENCE_KEY_PhysicalActivity, "Could not be registered: " + e.getLocalizedMessage());
+                    }
+                });
+    }
 }
-
-
-
-
-

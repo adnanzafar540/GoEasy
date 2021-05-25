@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.newawareness.Objects.ObjectSituationActivity;
+import com.example.newawareness.Objects.ObjectSituation;
 import com.example.newawareness.R;
 import com.example.newawareness.Utilities.Utilities;
 
@@ -16,10 +16,10 @@ import java.util.List;
 
 public class SituationsAdapter extends RecyclerView.Adapter<SituationsAdapter.ViewHolder> {
 
-    List<ObjectSituationActivity> list=null;
+    List<ObjectSituation> list=null;
 
 
-    public SituationsAdapter(Context context, List<ObjectSituationActivity> list ){
+    public SituationsAdapter(Context context, List<ObjectSituation> list ){
         this.list = list ;
 
 
@@ -38,7 +38,7 @@ public class SituationsAdapter extends RecyclerView.Adapter<SituationsAdapter.Vi
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ObjectSituationActivity object_situation = list.get(position);
+        ObjectSituation object_situation = list.get(position);
       holder.Headphone.setText(String.valueOf(Utilities.getHeadphoneItemFromIndexNumber(object_situation.getHeadphone())));
       holder.Weather.setText(String.valueOf(Utilities.getWeatherItemFromIndexNumber(object_situation.getWeather())));
       holder.Physical.setText(String.valueOf(Utilities.getPhysicalActivityItemFromIndexNumber(object_situation.getActivity())));

@@ -1,6 +1,6 @@
 package com.example.newawareness.Objects;
 
-public class ObjectSituationActivity {
+public class ObjectSituation {
     int weather;
     int action;
     int activity;
