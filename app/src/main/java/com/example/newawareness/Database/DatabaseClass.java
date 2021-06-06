@@ -8,13 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.newawareness.Objects.ObjectSituation;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.os.Build.ID;
-
-public class DatabaseActivity extends SQLiteOpenHelper {
+public class DatabaseClass extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Database";
     public static final String TABLE_NAME = "particulars_table";
     private static final int DATABASE_VERSION = 2;
@@ -31,9 +28,10 @@ public class DatabaseActivity extends SQLiteOpenHelper {
     public static final String COL_10 = "SituationName";
 
 
-    public DatabaseActivity(Context context) {
+    public DatabaseClass(Context context) {
         super(context, DATABASE_NAME, null, 2);
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -51,11 +49,40 @@ public class DatabaseActivity extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-   public void latestPrimarykey(){
-        String latestPrimaryKey=SELECT * FROM+TABLE_NAME+
-       WHERE ID = (
-               SELECT MAX(ID) FROM +TABLE_NAME);
-   }
+    public int latestPrimarykey() {
+        String query = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        cursor.moveToLast();
+        int latestKey = cursor.getInt(0);
+        return latestKey + 1;
+    }
+    public ObjectSituation checkKey_GetData(String key){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ObjectSituation object_situation=new ObjectSituation();
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery("SELECT * FROM particulars_table WHERE id = '"+key+"'", null);
+            cursor.moveToFirst();
+            object_situation.setHeadphone(cursor.getInt(1));
+            object_situation.setWeather(cursor.getInt(2));
+            object_situation.setActivity(cursor.getInt(3));
+            object_situation.setTime(cursor.getLong(4));
+            object_situation.setDate(cursor.getString(5));
+            object_situation.setAppname(cursor.getString(6));
+            object_situation.setNotification(cursor.getString(7));
+            object_situation.setLocationname(cursor.getString(8));
+            object_situation.setAction(cursor.getInt(9));
+            object_situation.setSituationname(cursor.getString(10));
+
+        }
+        return object_situation;
+
+    }
 
     public boolean insertData(ObjectSituation object_situation) {
 

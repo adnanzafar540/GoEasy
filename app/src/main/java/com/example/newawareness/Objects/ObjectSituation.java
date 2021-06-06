@@ -1,7 +1,7 @@
 package com.example.newawareness.Objects;
 
 public class ObjectSituation {
-    int weather;
+    int weather = -1;
     int action;
     int activity;
     int headphone;

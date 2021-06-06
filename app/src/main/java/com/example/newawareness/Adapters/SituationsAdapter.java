@@ -39,8 +39,8 @@ public class SituationsAdapter extends RecyclerView.Adapter<SituationsAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ObjectSituation object_situation = list.get(position);
-      holder.Headphone.setText(String.valueOf(Utilities.getHeadphoneItemFromIndexNumber(object_situation.getHeadphone())));
-      holder.Weather.setText(String.valueOf(Utilities.getWeatherItemFromIndexNumber(object_situation.getWeather())));
+      holder.Headphone.setText((Utilities.getHeadphoneItemFromIndexNumber(object_situation.getHeadphone())));
+      holder.Weather.setText(String.valueOf(Utilities.getWeatherItemFromIndexNumber((object_situation.getWeather()))));
       holder.Physical.setText(String.valueOf(Utilities.getPhysicalActivityItemFromIndexNumber(object_situation.getActivity())));
       holder.Action.setText(String.valueOf(Utilities.getActionItemFromIndexNumber(object_situation.getAction())));
       holder.SituationName.setText(object_situation.getSituationname());
