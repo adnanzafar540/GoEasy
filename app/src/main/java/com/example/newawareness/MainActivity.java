@@ -266,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
 
                         btn_Time.setText(Time);
                        object_situation.setTime(timeInMillisecond);
-                        //Toast.makeText(MainActivity.this, "Date has been set", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Date has been set", Toast.LENGTH_LONG).show();
                         is_TimeSelected = true;
                     }
                 };
