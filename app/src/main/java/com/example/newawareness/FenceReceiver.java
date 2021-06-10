@@ -10,7 +10,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-import com.example.newawareness.Database.DatabaseClass;
 import com.example.newawareness.Objects.ObjectSituation;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.FenceState;
@@ -38,7 +37,7 @@ public class FenceReceiver extends BroadcastReceiver {
         switch (fenceState.getCurrentState()) {
             case FenceState.TRUE:
                 fenceKey = fenceState.getFenceKey();
-                DatabaseClass databaseClass = new DatabaseClass(context);
+                /**DatabaseClass databaseClass = new DatabaseClass(context);
                 ObjectSituation objectSituation = databaseClass.checkKey_GetData(fenceKey);
              if(checkDate(objectSituation)){
                  Log.i(TAG, "Date is exist and matched");
@@ -53,7 +52,7 @@ public class FenceReceiver extends BroadcastReceiver {
                 }else {
                     Log.i(TAG, "Weather is  not exist and matched");
                 };
-                break;
+                break;*/
             case FenceState.FALSE:
                 Log.i(TAG, "User is not walking");
                 break;
@@ -64,13 +63,15 @@ public class FenceReceiver extends BroadcastReceiver {
     }
 
     public boolean checkDate(ObjectSituation objectSituation) {
-        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date());
         if (objectSituation.getDate() == null) {
             return true;
-        } else {
-            if (date.equals(objectSituation.getDate())) {
+        } else if (date.equals(objectSituation.getDate())){
+
                 return true;
             }
+
+        else{
             return false;
 
         }

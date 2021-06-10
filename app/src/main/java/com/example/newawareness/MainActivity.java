@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -33,15 +35,17 @@ import com.example.newawareness.Objects.ObjectSituation;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.FenceUpdateRequest;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 import static com.example.newawareness.Utilities.Utilities.getActionItemFromIndexNumber;
 import static com.example.newawareness.Utilities.Utilities.getActionList;
@@ -146,10 +150,9 @@ public class MainActivity extends AppCompatActivity {
                         list.add(FenceCreateUtilites.createTimeDateFence(object_situation.getTime(), object_situation.getTime(), MainActivity.this));
                     }
                     AwarenessFence finalFence = FenceCreateUtilites.getFinalFence(list);
+                    mdatabaseHelper.insertData(object_situation);
                     registerUpdateFinalFence(finalFence, MainActivity.this);
 
-
-                    mdatabaseHelper.insertData(object_situation);
                     Toast.makeText(MainActivity.this, "Situation Saved", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     finishAffinity();
@@ -421,6 +424,15 @@ public class MainActivity extends AppCompatActivity {
             Double Lng = data.getDoubleExtra("Lng", 0);
             object_situation.setLat(Lat);
             object_situation.setLongi(Lng);
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(Lat, Lng, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String cityName = addresses.get(0).getLocality();
+            String countryName=addresses.get(0).getCountryName();
             object_situation.setLocationname(Location);
             tv_location.setText(Location);
             is_locationSelected = true;
@@ -429,16 +441,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void registerUpdateFinalFence(AwarenessFence FinalFence, Context context) {
         FenceReceiver mFenceReceiver = new FenceReceiver(this);
-        GoogleApiClient client = new GoogleApiClient.Builder(context)
-                .addApi(Awareness.API)
-                .build();
-        client.connect();
         //find latest primary key from DDB
         mPendingIntent = PendingIntent.getBroadcast(context, 0,
                 new Intent(FENCE_RECEIVER_ACTION), 0);
         registerReceiver(mFenceReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
         Awareness.getFenceClient(context).updateFences(new FenceUpdateRequest.Builder()
-                .addFence(String.valueOf(mdatabaseHelper.latestPrimarykey()), FinalFence, mPendingIntent)
+               // .addFence(String.valueOf(mdatabaseHelper.latestPrimarykey()), FinalFence, mPendingIntent)
+                .addFence("dd", FinalFence, mPendingIntent)
                 .build())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -460,6 +469,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return false;
         }
+    }
+    public void findWeather(String cityname,String countryname){
+        String url="https://api.openweathermap.org/data/2.5/weather?q="+cityname+","+countryname+"uk&APPID=a46e8db6cdb0ae1b25ec614aa18a8c52";
+        
     }
 
 

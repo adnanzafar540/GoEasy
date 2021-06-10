@@ -46,7 +46,8 @@ public class FenceCreateUtilites {
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
         }
-        AwarenessFence TimeDateFence = TimeFence.inInterval(time1, time2);
+       // AwarenessFence TimeFence= com.google.android.gms.awareness.fence.TimeFence.inTimeInterval(time1);
+        AwarenessFence TimeDateFence = TimeFence.inInterval(time1, Long.MAX_VALUE);
 
         return TimeDateFence;
 
