@@ -9,7 +9,7 @@ public class ObjectSituation {
     String appname;
     String minutes;
     String hours;
-    String situationname, locationname,date, notification;
+    String situationname, locationname, date, notification;
     long time;
     Double lat;
     Double longi;
@@ -19,6 +19,25 @@ public class ObjectSituation {
     String Situation_name;
     String date_txt;
     String time_txt;
+
+    public String getCity_name() {
+        return city_name;
+    }
+
+    public void setCity_name(String city_name) {
+        this.city_name = city_name;
+    }
+
+    String city_name;
+    String country_name;
+
+    public String getCountry_name() {
+        return country_name;
+    }
+
+    public void setCountry_name(String country_name) {
+        this.country_name = country_name;
+    }
 
     public int getHeadphone() {
         return headphone;

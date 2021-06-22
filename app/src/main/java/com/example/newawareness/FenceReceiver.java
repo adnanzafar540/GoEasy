@@ -4,19 +4,21 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.newawareness.Database.DatabaseClass;
 import com.example.newawareness.Objects.ObjectSituation;
-import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.FenceState;
-import com.google.android.gms.awareness.snapshot.WeatherResponse;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,6 +27,7 @@ import java.util.Locale;
 public class FenceReceiver extends BroadcastReceiver {
     String fenceKey;
     Context context;
+    String wheather;
     private static final String TAG = "FenceReceiver";
 
     public FenceReceiver(Activity activityContext) {
@@ -37,7 +40,7 @@ public class FenceReceiver extends BroadcastReceiver {
         switch (fenceState.getCurrentState()) {
             case FenceState.TRUE:
                 fenceKey = fenceState.getFenceKey();
-                /**DatabaseClass databaseClass = new DatabaseClass(context);
+                DatabaseClass databaseClass = new DatabaseClass(context);
                 ObjectSituation objectSituation = databaseClass.checkKey_GetData(fenceKey);
              if(checkDate(objectSituation)){
                  Log.i(TAG, "Date is exist and matched");
@@ -52,7 +55,7 @@ public class FenceReceiver extends BroadcastReceiver {
                 }else {
                     Log.i(TAG, "Weather is  not exist and matched");
                 };
-                break;*/
+                break;
             case FenceState.FALSE:
                 Log.i(TAG, "User is not walking");
                 break;
@@ -76,41 +79,59 @@ public class FenceReceiver extends BroadcastReceiver {
 
         }
     }
-
     public boolean checkWeather(ObjectSituation objectSituation) {
-        MainActivity mainActivity=new MainActivity();
-       if(objectSituation.getWeather()==-1){
-           return true;
-       }
-       else {
-            if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            }
-            GoogleApiClient client = new GoogleApiClient.Builder(context)
-                    .addApi(Awareness.API)
-                    .build();
-            client.connect();
-           Awareness.getSnapshotClient(context).getWeather().addOnSuccessListener((Activity) context, new OnSuccessListener<WeatherResponse>() {
-               @Override
-               public void onSuccess(WeatherResponse weatherResponse) {
-                  int[] asd= weatherResponse.getWeather().getConditions();
-                  String asdd="SDFSDF";
-               }
-           }).addOnFailureListener((Activity) context, new OnFailureListener() {
-               @Override
-               public void onFailure(@NonNull Exception e) {
-                   String asdd="SDFSDF";
+        if(objectSituation.getWeather()==0){
+            return true;
+        }
+        else {
+            String cityname = objectSituation.getCity_name();
+            String countryname = objectSituation.getCountry_name();
 
-               }
-           });
+            String url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityname + "," + countryname + "uk&APPID=a46e8db6cdb0ae1b25ec614aa18a8c52";
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    String RESPONCE = response;
+                    try {
+                        JSONObject jsonresponce = new JSONObject(response);
+                        JSONArray array = jsonresponce.getJSONArray("weather");
+                        JSONObject object = array.getJSONObject(0);
+                        wheather = object.getString("main");
 
-            if (Awareness.getSnapshotClient(context).getWeather().equals(objectSituation.getWeather())) {
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+            RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+            requestQueue.add(stringRequest);
+            if (wheather == objectSituation.getWeather_txt()) {
                 return true;
             }
-            return false;
         }
-
-
+        return false;
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

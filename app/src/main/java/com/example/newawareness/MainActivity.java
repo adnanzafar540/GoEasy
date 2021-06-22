@@ -58,6 +58,8 @@ import static com.example.newawareness.Utilities.Utilities.getWeatherItemFromInd
 import static com.example.newawareness.Utilities.Utilities.getWeatherList;
 
 public class MainActivity extends AppCompatActivity {
+
+    String wheather;
     long start = 500;
     Switch Switch;
     DatabaseClass mdatabaseHelper;
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_activity);
         mdatabaseHelper = new DatabaseClass(this);
         object_situation = new ObjectSituation();
-        timeDate=new TimeDate();
+        timeDate = new TimeDate();
         getWidgets();
         Click_Listners();
 
@@ -206,21 +208,27 @@ public class MainActivity extends AppCompatActivity {
         tv_Weather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getWeatherList();
-                AlertDialog.Builder Builder;
-                Builder = new AlertDialog.Builder(MainActivity.this);
-                Builder.setTitle("Select Weather State");
-                Builder.setItems(getWeatherList(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        object_situation.setWeather_txt(getWeatherItemFromIndexNumber(i));
-                        tv_Weather.setText(getWeatherItemFromIndexNumber(i));
-                        object_situation.setWeather(i);
-                        is_WeatherSelected = true;
-                    }
-                });
-                AlertDialog alert = Builder.create();
-                alert.show();
+                if (is_locationSelected) {
+                    getWeatherList();
+                    AlertDialog.Builder Builder;
+                    Builder = new AlertDialog.Builder(MainActivity.this);
+                    Builder.setTitle("Select Weather State");
+                    Builder.setItems(getWeatherList(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String Weathertxt = getWeatherItemFromIndexNumber(i);
+                            object_situation.setWeather_txt(Weathertxt);
+                            tv_Weather.setText(getWeatherItemFromIndexNumber(i));
+                            object_situation.setWeather(i);
+                            is_WeatherSelected = true;
+                        }
+                    });
+                    AlertDialog alert = Builder.create();
+                    alert.show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Please chose location first ", Toast.LENGTH_LONG).show();
+
+                }
             }
         });
 
@@ -252,23 +260,23 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMint) {
                         String minute = String.format("%02d", selectedMint);
-                        String hour= String.format("%02d", selectedHour);
+                        String hour = String.format("%02d", selectedHour);
                         String Time = (hour + ":" + minute);
                         timeDate.setTime(Time);
-                        String TimeDate=timeDate.getDate()+"/"+timeDate.getTime();
+                        String TimeDate = timeDate.getDate() + "/" + timeDate.getTime();
 
 
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy/HH:mm");
 
 
-                        long timeInMillisecond=0L;
+                        long timeInMillisecond = 0L;
                         LocalDateTime dateTime = LocalDateTime.parse(TimeDate, formatter);
                         timeInMillisecond = dateTime.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli();
                         //  LocalDateTime localDate = LocalDateTime.parse(TimeDate, dateFormat);
-                     //   long timeInMilliseconds = localDate.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli();
+                        //   long timeInMilliseconds = localDate.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli();
 
                         btn_Time.setText(Time);
-                       object_situation.setTime(timeInMillisecond);
+                        object_situation.setTime(timeInMillisecond);
                         Toast.makeText(MainActivity.this, "Date has been set", Toast.LENGTH_LONG).show();
                         is_TimeSelected = true;
                     }
@@ -301,8 +309,7 @@ public class MainActivity extends AppCompatActivity {
                             object_situation.setDate(date);
                             timeDate.setDate(date);
 
-                        }
-                      else   if (mDay < 10) {
+                        } else if (mDay < 10) {
                             day1 = String.valueOf("0" + mDay);
                             year = String.valueOf(mYear);
                             String day = String.valueOf(mDay);
@@ -312,13 +319,12 @@ public class MainActivity extends AppCompatActivity {
                             object_situation.setDate(date);
                             timeDate.setDate(date);
 
-                        }
-                      else   if (mMonth < 10) {
+                        } else if (mMonth < 10) {
                             month1 = String.valueOf("0" + mMonth);
                             year = String.valueOf(mYear);
                             String day = String.valueOf(mDay);
                             String month = String.valueOf(month1);
-                            String date = (month1+ "-" + day + "-" + year);
+                            String date = (month1 + "-" + day + "-" + year);
                             btn_Date.setText(date);
                             object_situation.setDate(date);
                             timeDate.setDate(date);
@@ -432,7 +438,10 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             String cityName = addresses.get(0).getLocality();
-            String countryName=addresses.get(0).getCountryName();
+            String countryName = addresses.get(0).getCountryName();
+            object_situation.setCity_name(cityName);
+            object_situation.setCountry_name(countryName);
+            //findWeather(cityName,countryName);
             object_situation.setLocationname(Location);
             tv_location.setText(Location);
             is_locationSelected = true;
@@ -446,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
                 new Intent(FENCE_RECEIVER_ACTION), 0);
         registerReceiver(mFenceReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
         Awareness.getFenceClient(context).updateFences(new FenceUpdateRequest.Builder()
-               // .addFence(String.valueOf(mdatabaseHelper.latestPrimarykey()), FinalFence, mPendingIntent)
+                // .addFence(String.valueOf(mdatabaseHelper.latestPrimarykey()), FinalFence, mPendingIntent)
                 .addFence("dd", FinalFence, mPendingIntent)
                 .build())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -470,10 +479,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-    public void findWeather(String cityname,String countryname){
-        String url="https://api.openweathermap.org/data/2.5/weather?q="+cityname+","+countryname+"uk&APPID=a46e8db6cdb0ae1b25ec614aa18a8c52";
-        
-    }
+
 
 
 }

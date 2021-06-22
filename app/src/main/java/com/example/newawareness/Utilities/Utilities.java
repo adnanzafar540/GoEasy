@@ -16,7 +16,7 @@ public class Utilities {
     }
 
     public static String[] getWeatherList() {
-        return new String[]{"Clear", "Cloudy", "Foggy", "Hazy", "Icy", "Rainy", "Snowy", "Stormy", "Windy"};
+        return new String[]{"Thunderstorm", "Drizzle", "Rain", "Snow", "Clear", "Clouds", "Snowy", "Stormy", "Windy"};
     }
     public static String getWeatherItemFromIndexNumber(int index) {
         String item = getWeatherList()[index];
