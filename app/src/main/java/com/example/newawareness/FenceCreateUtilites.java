@@ -27,10 +27,12 @@ public class FenceCreateUtilites {
         return fenceHeadPhoneState;
     }
 
-    public static AwarenessFence createLocationFence(double logitutude, double latitude, double radius, long l, Context context) {
+    public static AwarenessFence createLocationFence(double logitutude, double latitude, double radius,Long l, Context context) {
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         }
+
         AwarenessFence fenceLocationState = LocationFence.in(logitutude, latitude, radius, l);
+       // AwarenessFence fenceLocationState = LocationFence.entering(logitutude,latitude,radius);
         return fenceLocationState;
 
 

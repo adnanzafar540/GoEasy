@@ -60,7 +60,7 @@ import static com.example.newawareness.Utilities.Utilities.getWeatherList;
 public class MainActivity extends AppCompatActivity {
 
     String wheather;
-    long start = 500;
+    long start = 0L;
     Switch Switch;
     DatabaseClass mdatabaseHelper;
     EditText Situation_Name;
@@ -146,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
                         list.add(FenceCreateUtilites.createphysicalactivityFence(getIndexPhysicalActivitydetected(object_situation.getActivity())));
                     }
                     if (is_locationSelected) {
-                        list.add(FenceCreateUtilites.createLocationFence(object_situation.getLongi(), object_situation.getLat(), 1000, start, MainActivity.this));
+                        list.add(FenceCreateUtilites.createLocationFence(object_situation.getLongi(), object_situation.getLat(), 500L,start
+                                , MainActivity.this));
                     }
                     if (is_TimeSelected) {
                         list.add(FenceCreateUtilites.createTimeDateFence(object_situation.getTime(), object_situation.getTime(), MainActivity.this));
@@ -472,14 +473,9 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public boolean checkWeatherExist() {
-        if (is_WeatherSelected) {
-            return true;
-        } else {
-            return false;
-        }
+
     }
 
 
 
-}
+
