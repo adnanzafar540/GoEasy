@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
 
                         btn_Time.setText(Time);
                         object_situation.setTime(timeInMillisecond);
-                        Toast.makeText(MainActivity.this, "Date has been set", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Time has been set", Toast.LENGTH_LONG).show();
                         is_TimeSelected = true;
                     }
                 };
@@ -292,65 +292,73 @@ public class MainActivity extends AppCompatActivity {
         btn_Date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
-                        mMonth = mMonth + 1;
-                        String month1;
-                        String day1;
-                        String year;
-                        if (mDay < 10 && mMonth < 10) {
-                            day1 = String.valueOf("0" + mDay);
-                            month1 = String.valueOf("0" + mMonth);
-                            year = String.valueOf(mYear);
-                            String day = String.valueOf(mDay);
-                            String month = String.valueOf(mMonth);
-                            String date = (month1 + "-" + day1 + "-" + year);
-                            btn_Date.setText(date);
-                            object_situation.setDate(date);
-                            timeDate.setDate(date);
+                if (is_TimeSelected) {
+                    DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
+                            mMonth = mMonth + 1;
+                            String month1;
+                            String day1;
+                            String year;
+                            if (mDay < 10 && mMonth < 10) {
+                                day1 = String.valueOf("0" + mDay);
+                                month1 = String.valueOf("0" + mMonth);
+                                year = String.valueOf(mYear);
+                                String day = String.valueOf(mDay);
+                                String month = String.valueOf(mMonth);
+                                String date = (month1 + "-" + day1 + "-" + year);
+                                btn_Date.setText(date);
+                                object_situation.setDate(date);
+                                timeDate.setDate(date);
+                                is_DateSelected = true;
 
-                        } else if (mDay < 10) {
-                            day1 = String.valueOf("0" + mDay);
-                            year = String.valueOf(mYear);
-                            String day = String.valueOf(mDay);
-                            String month = String.valueOf(mMonth);
-                            String date = (month + "-" + day1 + "-" + year);
-                            btn_Date.setText(date);
-                            object_situation.setDate(date);
-                            timeDate.setDate(date);
+                            } else if (mDay < 10) {
+                                day1 = String.valueOf("0" + mDay);
+                                year = String.valueOf(mYear);
+                                String day = String.valueOf(mDay);
+                                String month = String.valueOf(mMonth);
+                                String date = (month + "-" + day1 + "-" + year);
+                                btn_Date.setText(date);
+                                object_situation.setDate(date);
+                                timeDate.setDate(date);
+                                is_DateSelected = true;
 
-                        } else if (mMonth < 10) {
-                            month1 = String.valueOf("0" + mMonth);
-                            year = String.valueOf(mYear);
-                            String day = String.valueOf(mDay);
-                            String month = String.valueOf(month1);
-                            String date = (month1 + "-" + day + "-" + year);
-                            btn_Date.setText(date);
-                            object_situation.setDate(date);
-                            timeDate.setDate(date);
+                            } else if (mMonth < 10) {
+                                month1 = String.valueOf("0" + mMonth);
+                                year = String.valueOf(mYear);
+                                String day = String.valueOf(mDay);
+                                String month = String.valueOf(month1);
+                                String date = (month1 + "-" + day + "-" + year);
+                                btn_Date.setText(date);
+                                object_situation.setDate(date);
+                                timeDate.setDate(date);
+                                is_DateSelected = true;
 
 
-                        } else {
-                            month1 = String.valueOf(mYear);
-                            year = String.valueOf(mMonth);
-                            String day = String.valueOf(mDay);
-                            String date = (month1 + "-" + day + "-" + year);
-                            btn_Date.setText(date);
-                            object_situation.setDate(date);
-                            timeDate.setDate(date);
+                            } else {
+                                month1 = String.valueOf(mYear);
+                                year = String.valueOf(mMonth);
+                                String day = String.valueOf(mDay);
+                                String date = (month1 + "-" + day + "-" + year);
+                                btn_Date.setText(date);
+                                object_situation.setDate(date);
+                                timeDate.setDate(date);
+                                is_DateSelected = true;
+                            }
+                            is_DateSelected = true;
                         }
-                        is_DateSelected = true;
-                    }
-                };
+                    };
 
-                Calendar calendar = Calendar.getInstance();
-                int mYear = calendar.get(Calendar.YEAR);
-                int mMonth = calendar.get(Calendar.MONTH);
-                int mDay = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, onDateSetListener, mYear, mMonth, mDay);
-                datePickerDialog.setTitle("Select Date");
-                datePickerDialog.show();
+                    Calendar calendar = Calendar.getInstance();
+                    int mYear = calendar.get(Calendar.YEAR);
+                    int mMonth = calendar.get(Calendar.MONTH);
+                    int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, onDateSetListener, mYear, mMonth, mDay);
+                    datePickerDialog.setTitle("Select Date");
+                    datePickerDialog.show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Please Set Time First", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

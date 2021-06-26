@@ -19,6 +19,7 @@ public class ObjectSituation {
     String Situation_name;
     String date_txt;
     String time_txt;
+    Boolean isSwitchActive;
 
     public String getCity_name() {
         return city_name;
@@ -30,6 +31,14 @@ public class ObjectSituation {
 
     String city_name;
     String country_name;
+
+    public Boolean getSwitchActive() {
+        return isSwitchActive;
+    }
+
+    public void setSwitchActive(Boolean switchActive) {
+        isSwitchActive = switchActive;
+    }
 
     public String getCountry_name() {
         return country_name;

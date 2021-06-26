@@ -26,6 +26,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
     public static final String COL_8 = "Location_name";
     public static final String COL_9 = "Action_type";
     public static final String COL_10 = "SituationName";
+    public static final String COL_11 = "SetTime";
 
 
     public DatabaseClass(Context context) {
@@ -39,7 +40,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
                 " (id integer primary key," + COL_1 + " VARCHAR," +
                 COL_2 + " VARCHAR," + COL_3 + " VARCHAR," +
                 COL_4 + " VARCHAR," + COL_5 + " VARCHAR," + COL_6
-                + " VARCHAR," + COL_7 + " VARCHAR," + COL_8 + " VARCHAR," + COL_9 + " VARCHAR," + COL_10 + " VARCHAR);";
+                + " VARCHAR," + COL_7 + " VARCHAR," + COL_8 + " VARCHAR," + COL_9 +" VARCHAR," + COL_10+ " VARCHAR," + COL_11 + " VARCHAR);";
         db.execSQL(Table);
     }
 
@@ -99,6 +100,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
         contentValues.put(COL_8, object_situation.getLocationname());
         contentValues.put(COL_9, object_situation.getAction());
         contentValues.put(COL_10, object_situation.getSituationname());
+        contentValues.put(COL_10, object_situation.getTime());
 
         long result = db.insert(TABLE_NAME, null, contentValues);
         if (result == -1)
@@ -127,6 +129,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
             object_situation.setLocationname(cursor.getString(8));
             object_situation.setAction(cursor.getInt(9));
             object_situation.setSituationname(cursor.getString(10));
+            object_situation.setTime(cursor.getLong(11));
 
             list.add(object_situation);
         }
