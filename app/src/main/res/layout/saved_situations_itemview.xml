@@ -125,7 +125,7 @@
 
     </LinearLayout>
     <Switch
-        android:id="@+id/Simpleswitch"
+        android:id="@+id/IsSwitchActive"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/savedsitautions_Switch_margin_left"

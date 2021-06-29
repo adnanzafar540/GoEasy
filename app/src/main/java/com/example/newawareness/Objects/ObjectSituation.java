@@ -3,8 +3,8 @@ package com.example.newawareness.Objects;
 public class ObjectSituation {
     int weather = -1;
     int action;
-    int activity;
-    int headphone;
+    int activity=-1;
+    int headphone=-1;
     Boolean active;
     String appname;
     String minutes;
@@ -20,6 +20,37 @@ public class ObjectSituation {
     String date_txt;
     String time_txt;
     Boolean isSwitchActive;
+
+    public boolean isIs_activitySelected() {
+        return is_activitySelected;
+    }
+
+    public void setIs_activitySelected(boolean is_activitySelected) {
+        this.is_activitySelected = is_activitySelected;
+    }
+
+    boolean is_WeatherSelected;
+
+    public boolean isIs_WeatherSelected() {
+        return is_WeatherSelected;
+    }
+
+    public void setIs_WeatherSelected(boolean is_WeatherSelected) {
+        this.is_WeatherSelected = is_WeatherSelected;
+    }
+
+    boolean is_activitySelected;
+
+    public boolean isIs_HeadphonESelected(boolean b) {
+        return is_HeadphonESelected;
+    }
+
+    public void setIs_HeadphonESelected(boolean is_HeadphonESelected) {
+        this.is_HeadphonESelected = is_HeadphonESelected;
+    }
+
+    boolean is_HeadphonESelected;
+
 
     public String getCity_name() {
         return city_name;

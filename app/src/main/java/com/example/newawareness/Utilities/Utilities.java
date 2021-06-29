@@ -32,6 +32,8 @@ public class Utilities {
         return new String[]{"In Vehicle", "On Bicycle", "On Foot", "Still", "Walking","Running"};
     }
     public static String getPhysicalActivityItemFromIndexNumber(int index) {
+
+
         String item = getPhysicalActivityList()[index];
         return item;
     }

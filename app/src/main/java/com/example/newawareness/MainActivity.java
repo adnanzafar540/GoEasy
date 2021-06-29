@@ -57,7 +57,7 @@ import static com.example.newawareness.Utilities.Utilities.getPhysicalActivityLi
 import static com.example.newawareness.Utilities.Utilities.getWeatherItemFromIndexNumber;
 import static com.example.newawareness.Utilities.Utilities.getWeatherList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     String wheather;
     long start = 0L;
@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         timeDate = new TimeDate();
         getWidgets();
         Click_Listners();
-
     }
 
     public void getWidgets() {
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         btn_Action = (Button) findViewById(R.id.btn_Acction);
         btn_addSituation = (Button) findViewById(R.id.btn_addSituation);
         btn_ShowSituations = (Button) findViewById(R.id.btn_showSituations);
-        Switch = (Switch) findViewById(R.id.Simpleswitch);
+
 
     }
 
@@ -123,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
                 String SituationName = Situation_Name.getText().toString();
                 object_situation.setSituationname(SituationName);
                 is_situationNameExist = true;
+                //mdatabaseHelper.latestPrimarykey();
+
             }
 
             @Override
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         btn_addSituation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                object_situation.setSwitchActive(true);
                 ArrayList<AwarenessFence> list = new ArrayList<AwarenessFence>();
 
                 //  if ((is_situationNameExist && is_actionSelected) && (is_activitySelected || is_DateSelected || is_HeadphonESelected || is_locationSelected || is_TimeSelected || is_WeatherSelected
@@ -199,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
                         tv_Headphone.setText(getHeadphoneItemFromIndexNumber(index));
                         object_situation.setHeadphone(index);
                         is_HeadphonESelected = true;
+                        object_situation.isIs_HeadphonESelected(true);
                     }
                 });
                 AlertDialog alert = Builder.create();
@@ -217,11 +219,13 @@ public class MainActivity extends AppCompatActivity {
                     Builder.setItems(getWeatherList(), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+
                             String Weathertxt = getWeatherItemFromIndexNumber(i);
                             object_situation.setWeather_txt(Weathertxt);
                             tv_Weather.setText(getWeatherItemFromIndexNumber(i));
                             object_situation.setWeather(i);
                             is_WeatherSelected = true;
+                            object_situation.setIs_WeatherSelected(true);
                         }
                     });
                     AlertDialog alert = Builder.create();
@@ -482,7 +486,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    }
+       public void checkExistanceforphysicalAction(){
+        if(is_activitySelected){
+            object_situation.setActivity(-1);
+        }
+        else{
+            return;
+       }} public void checkExistanceforHeadphone(){
+        if(is_activitySelected){
+            object_situation.setHeadphone(-1);
+        }
+        else{
+            return;
+       }}
+}
 
 
 

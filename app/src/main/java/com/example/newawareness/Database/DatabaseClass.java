@@ -27,6 +27,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
     public static final String COL_9 = "Action_type";
     public static final String COL_10 = "SituationName";
     public static final String COL_11 = "SetTime";
+    public static final String COL_12 = "checkSwitch";
 
 
     public DatabaseClass(Context context) {
@@ -40,7 +41,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
                 " (id integer primary key," + COL_1 + " VARCHAR," +
                 COL_2 + " VARCHAR," + COL_3 + " VARCHAR," +
                 COL_4 + " VARCHAR," + COL_5 + " VARCHAR," + COL_6
-                + " VARCHAR," + COL_7 + " VARCHAR," + COL_8 + " VARCHAR," + COL_9 +" VARCHAR," + COL_10+ " VARCHAR," + COL_11 + " VARCHAR);";
+                + " VARCHAR," + COL_7 + " VARCHAR," + COL_8 + " VARCHAR," + COL_9 +" VARCHAR," + COL_10+ " VARCHAR," +COL_11 +" VARCHAR,"+ COL_12 + " VARCHAR);";
         db.execSQL(Table);
     }
 
@@ -79,6 +80,9 @@ public class DatabaseClass extends SQLiteOpenHelper {
             object_situation.setLocationname(cursor.getString(8));
             object_situation.setAction(cursor.getInt(9));
             object_situation.setSituationname(cursor.getString(10));
+            object_situation.setTime(cursor.getLong(11));
+            boolean value = cursor.getInt(12) > 0;
+            object_situation.setSwitchActive(value);
 
         }
         return object_situation;
@@ -100,7 +104,8 @@ public class DatabaseClass extends SQLiteOpenHelper {
         contentValues.put(COL_8, object_situation.getLocationname());
         contentValues.put(COL_9, object_situation.getAction());
         contentValues.put(COL_10, object_situation.getSituationname());
-        contentValues.put(COL_10, object_situation.getTime());
+        contentValues.put(COL_11, object_situation.getTime());
+        contentValues.put(COL_12, object_situation.getSwitchActive());
 
         long result = db.insert(TABLE_NAME, null, contentValues);
         if (result == -1)
@@ -130,13 +135,22 @@ public class DatabaseClass extends SQLiteOpenHelper {
             object_situation.setAction(cursor.getInt(9));
             object_situation.setSituationname(cursor.getString(10));
             object_situation.setTime(cursor.getLong(11));
-
+            boolean value = cursor.getInt(12) > 0;
+            object_situation.setSwitchActive(value);
             list.add(object_situation);
         }
         return list;
 
     }
 
+    public void update(int id,boolean b){
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_12, b);
+        db.update(TABLE_NAME, contentValues, "_id=" +id, null);
+    }
 
 }
 
