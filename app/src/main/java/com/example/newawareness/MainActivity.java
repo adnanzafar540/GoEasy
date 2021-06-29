@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void getWidgets() {
-
         tv_Headphone = (TextView) findViewById(R.id.tv_headphone);
         Situation_Name = (EditText) findViewById(R.id.etv_situation_name);
         tv_Weather = (TextView) findViewById(R.id.tv_WeatherState);
