@@ -1,6 +1,9 @@
 package com.example.newawareness;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import androidx.core.app.NotificationCompat;
+
 public class FenceReceiver extends BroadcastReceiver {
     String fenceKey;
     Context context;
@@ -43,6 +48,7 @@ public class FenceReceiver extends BroadcastReceiver {
                 DatabaseClass databaseClass = new DatabaseClass(context);
                 ObjectSituation objectSituation = databaseClass.checkKey_GetData(fenceKey);
              if(checkDate(objectSituation)){
+
                  Log.i(TAG, "Date is exist and matched");
 
              }else{
@@ -63,6 +69,34 @@ public class FenceReceiver extends BroadcastReceiver {
                 Log.i(TAG, "User is doing something unknown");
                 break;
         }
+    }
+
+    public void makeNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId())
+                .setContentTitle("Hi")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentText("Welcome to Android");
+
+        Intent intent = new Intent(context, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder.setContentIntent(pendingIntent);
+        if (shouldSound && !shouldVibrate) {
+            builder.setDefaults(Notification.DEFAULT_SOUND)
+                    .setVibrate(new long[]{0L});
+        }
+        if (shouldVibrate && !shouldSound) {
+            builder.setDefaults(Notification.DEFAULT_VIBRATE)
+                    .setSound(null);
+        }
+        if (shouldSound && shouldVibrate) {
+            builder.setDefaults(Notification.DEFAULT_ALL);
+        }
+
+
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, builder.build());
     }
 
     public boolean checkDate(ObjectSituation objectSituation) {

@@ -14,7 +14,7 @@ import java.util.List;
 public class DatabaseClass extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Database";
     public static final String TABLE_NAME = "particulars_table";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     public static final String COL_1 = "Headphone_State";
     public static final String COL_2 = "Wheather_State";
@@ -31,7 +31,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
 
 
     public DatabaseClass(Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
 
@@ -135,6 +135,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
             object_situation.setAction(cursor.getInt(9));
             object_situation.setSituationname(cursor.getString(10));
             object_situation.setTime(cursor.getLong(11));
+            int adf = cursor.getInt(12);
             boolean value = cursor.getInt(12) > 0;
             object_situation.setSwitchActive(value);
             list.add(object_situation);
@@ -144,12 +145,13 @@ public class DatabaseClass extends SQLiteOpenHelper {
     }
 
     public void update(int id,boolean b){
-
-
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_12, b);
-        db.update(TABLE_NAME, contentValues, "_id=" +id, null);
+     // int result =  db.update(TABLE_NAME, contentValues, "id=" +id, null);
+        int result =    db.update(TABLE_NAME, contentValues, "id = ?", new String[]{ String.valueOf(id+1)});
+
+        result = result + 1;
     }
 
 }

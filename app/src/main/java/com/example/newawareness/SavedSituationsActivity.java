@@ -39,9 +39,8 @@ public class SavedSituationsActivity extends AppCompatActivity implements OnItem
     public long onClickgetid(long id) {
         return id;
     }
+    @Override
     public void forcheckIDandSwitch(int id,boolean b){
-        DatabaseClass db=new DatabaseClass(this);
         db.update(id,b);
     }
-
 }
