@@ -14,8 +14,7 @@ import java.util.List;
 public class DatabaseClass extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Database";
     public static final String TABLE_NAME = "particulars_table";
-    private static final int DATABASE_VERSION = 1;
-
+    private static final int DATABASE_VERSION = 2;
     public static final String COL_1 = "Headphone_State";
     public static final String COL_2 = "Wheather_State";
     public static final String COL_3 = "Physical_State";
@@ -28,10 +27,12 @@ public class DatabaseClass extends SQLiteOpenHelper {
     public static final String COL_10 = "SituationName";
     public static final String COL_11 = "SetTime";
     public static final String COL_12 = "checkSwitch";
+    public static final String COL_13 = "PakageName";
 
 
     public DatabaseClass(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
+        super(context, DATABASE_NAME, null, 2);
     }
 
 
@@ -41,7 +42,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
                 " (id integer primary key," + COL_1 + " VARCHAR," +
                 COL_2 + " VARCHAR," + COL_3 + " VARCHAR," +
                 COL_4 + " VARCHAR," + COL_5 + " VARCHAR," + COL_6
-                + " VARCHAR," + COL_7 + " VARCHAR," + COL_8 + " VARCHAR," + COL_9 +" VARCHAR," + COL_10+ " VARCHAR," +COL_11 +" VARCHAR,"+ COL_12 + " VARCHAR);";
+                + " VARCHAR," + COL_7 + " VARCHAR," + COL_8 + " VARCHAR," + COL_9 +" VARCHAR," + COL_10 +" VARCHAR," + COL_11+ " VARCHAR," +COL_12 +" VARCHAR,"+ COL_13 + " VARCHAR);";
         db.execSQL(Table);
     }
 
@@ -60,9 +61,9 @@ public class DatabaseClass extends SQLiteOpenHelper {
         }
         cursor.moveToLast();
         int latestKey = cursor.getInt(0);
-        return latestKey + 1;
+        return latestKey ;
     }
-    public ObjectSituation checkKey_GetData(String key){
+    public ObjectSituation checkKey_GetData(int key){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ObjectSituation object_situation=new ObjectSituation();
@@ -83,6 +84,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
             object_situation.setTime(cursor.getLong(11));
             boolean value = cursor.getInt(12) > 0;
             object_situation.setSwitchActive(value);
+            object_situation.setPakagename(cursor.getString(13));
 
         }
         return object_situation;
@@ -106,6 +108,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
         contentValues.put(COL_10, object_situation.getSituationname());
         contentValues.put(COL_11, object_situation.getTime());
         contentValues.put(COL_12, object_situation.getSwitchActive());
+        contentValues.put(COL_13, object_situation.getPakagename());
 
         long result = db.insert(TABLE_NAME, null, contentValues);
         if (result == -1)
@@ -135,9 +138,9 @@ public class DatabaseClass extends SQLiteOpenHelper {
             object_situation.setAction(cursor.getInt(9));
             object_situation.setSituationname(cursor.getString(10));
             object_situation.setTime(cursor.getLong(11));
-            int adf = cursor.getInt(12);
             boolean value = cursor.getInt(12) > 0;
             object_situation.setSwitchActive(value);
+            object_situation.setPakagename(cursor.getString(13));
             list.add(object_situation);
         }
         return list;
@@ -148,10 +151,9 @@ public class DatabaseClass extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_12, b);
-     // int result =  db.update(TABLE_NAME, contentValues, "id=" +id, null);
-        int result =    db.update(TABLE_NAME, contentValues, "id = ?", new String[]{ String.valueOf(id+1)});
+        int result =    db.update(TABLE_NAME, contentValues, "id = ?", new String[]{ String.valueOf(id+1)});       result=result+1;
 
-        result = result + 1;
+
     }
 
 }

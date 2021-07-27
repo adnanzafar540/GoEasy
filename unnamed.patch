@@ -1,0 +1,858 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision abba14327985cc2f329f51cf14b67004c09c7211)
++++ app/build.gradle	(date 1624995411736)
+@@ -37,4 +37,6 @@
+     implementation 'com.google.android.gms:play-services:12.0.1'
+     implementation 'androidx.multidex:multidex:2.0.1'
+     implementation 'com.android.volley:volley:1.1.0'
++        //noinspection GradleCompatible
++        implementation "com.android.support:support-compat:28.0.0"
+ }
+Index: app/src/main/java/com/example/newawareness/Database/DatabaseClass.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/newawareness/Database/DatabaseClass.java	(revision abba14327985cc2f329f51cf14b67004c09c7211)
++++ app/src/main/java/com/example/newawareness/Database/DatabaseClass.java	(date 1625303503523)
+@@ -31,6 +31,7 @@
+ 
+ 
+     public DatabaseClass(Context context) {
++
+         super(context, DATABASE_NAME, null, 2);
+     }
+ 
+@@ -60,9 +61,9 @@
+         }
+         cursor.moveToLast();
+         int latestKey = cursor.getInt(0);
+-        return latestKey + 1;
++        return latestKey ;
+     }
+-    public ObjectSituation checkKey_GetData(String key){
++    public ObjectSituation checkKey_GetData(int key){
+ 
+         SQLiteDatabase db = this.getWritableDatabase();
+         ObjectSituation object_situation=new ObjectSituation();
+@@ -144,12 +145,12 @@
+     }
+ 
+     public void update(int id,boolean b){
+-
+-
+         SQLiteDatabase db = this.getWritableDatabase();
+         ContentValues contentValues = new ContentValues();
+         contentValues.put(COL_12, b);
+-        db.update(TABLE_NAME, contentValues, "_id=" +id, null);
++        int result =    db.update(TABLE_NAME, contentValues, "id = ?", new String[]{ String.valueOf(id+1)});       result=result+1;
++
++
+     }
+ 
+ }
+Index: app/src/main/res/layout/main_activity.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/main_activity.xml	(revision abba14327985cc2f329f51cf14b67004c09c7211)
++++ app/src/main/res/layout/main_activity.xml	(date 1625258158769)
+@@ -14,7 +14,7 @@
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+-            android:layout_marginTop="10dp"
++            android:layout_marginTop="2dp"
+             android:layout_marginLeft="@dimen/linear_layout_margin_left"
+             android:layout_marginRight="@dimen/linear_layout_margin_Right"
+             android:background="@color/MainBackground_Color"
+@@ -218,20 +218,29 @@
+ 
+                 <Button
+                     android:id="@+id/btn_date"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
++                    android:layout_width="80dp"
++                    android:layout_height="50dp"
++                    android:layout_marginRight="0dp"
++                    android:layout_marginTop="2dp"
++                    android:background="@drawable/button_rounded"
+ 
+-                    android:background="@color/miniText_color"
+                     android:text="DATE"
++                    android:layout_marginLeft="8dp"
+                     >>
+                 </Button>
+                 <Button
+                     android:id="@+id/btn_time"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
++                    android:layout_width="80dp"
++                    android:layout_height="50dp"
+                     android:layout_marginLeft="@dimen/button_margin_left"
+-                    android:background="@color/miniText_color"
++                    android:layout_marginRight="3dp"
++                    android:layout_marginTop="2dp"
++
++
++
+                     android:text="Time"
++                    android:background="@drawable/button_rounded"
++
+ 
+ 
+                     >
+Index: app/src/main/java/com/example/newawareness/Adapters/SituationsAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/newawareness/Adapters/SituationsAdapter.java	(revision abba14327985cc2f329f51cf14b67004c09c7211)
++++ app/src/main/java/com/example/newawareness/Adapters/SituationsAdapter.java	(date 1625259363275)
+@@ -13,7 +13,6 @@
+ import com.example.newawareness.Objects.ObjectSituation;
+ import com.example.newawareness.OnItemClick;
+ import com.example.newawareness.R;
+-import com.example.newawareness.SavedSituationsActivity;
+ import com.example.newawareness.Utilities.Utilities;
+ 
+ import java.util.List;
+@@ -62,12 +61,12 @@
+       holder.Physical.setText(String.valueOf(Utilities.getPhysicalActivityItemFromIndexNumber(object_situation.getActivity())));}
+       holder.Action.setText(String.valueOf(Utilities.getActionItemFromIndexNumber(object_situation.getAction())));
+       holder.SituationName.setText(object_situation.getSituationname());
+-      holder.aSwitch.setChecked(true);
++      holder.aSwitch.setChecked(object_situation.getSwitchActive());
+       holder.aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+-              SavedSituationsActivity savedSituationsActivity=new SavedSituationsActivity();
+-              savedSituationsActivity.forcheckIDandSwitch(position,mCallback.onClickswitchCheck(isChecked));
++              object_situation.setSwitchActive(mCallback.onClickswitchCheck(isChecked));
++              mCallback.forcheckIDandSwitch(position+1,object_situation.getSwitchActive());
+           }
+       });
+    /*   holder.itemView.setOnClickListener(new AdapterView.OnItemClickListener() {
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision abba14327985cc2f329f51cf14b67004c09c7211)
++++ app/src/main/res/values/strings.xml	(date 1625257766053)
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name">New Awareness</string>
++    <string name="app_name">Assistance Plus(+)</string>
+     <string name="headphone_state">Headphone State</string>
+     <string name="Chose_State">Choose State</string>
+     <string name="Select_Action">Select Action</string>
+Index: app/src/main/java/com/example/newawareness/OnItemClick.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/newawareness/OnItemClick.java	(revision abba14327985cc2f329f51cf14b67004c09c7211)
++++ app/src/main/java/com/example/newawareness/OnItemClick.java	(date 1625249749273)
+@@ -4,4 +4,5 @@
+ 
+         boolean onClickswitchCheck (boolean boolea);
+         long onClickgetid(long id);
++        void forcheckIDandSwitch(int id,boolean b);
+ }
+Index: app/src/main/java/com/example/newawareness/SavedSituationsActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/newawareness/SavedSituationsActivity.java	(revision abba14327985cc2f329f51cf14b67004c09c7211)
++++ app/src/main/java/com/example/newawareness/SavedSituationsActivity.java	(date 1625251456341)
+@@ -1,5 +1,9 @@
+ package com.example.newawareness;
+ 
++import android.app.NotificationChannel;
++import android.app.NotificationManager;
++import android.content.Context;
++import android.os.Build;
+ import android.os.Bundle;
+ 
+ import androidx.annotation.Nullable;
+@@ -18,12 +22,14 @@
+ 
+     protected void onCreate(@Nullable Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
++        createNotificationChannel(this);
+ 
+         setContentView(R.layout.saved_situations_recyclerrview);
+         db = new DatabaseClass(this);
+         mainActivity=new MainActivity();
+         mainActivity.checkExistanceforHeadphone();
+         mainActivity.checkExistanceforphysicalAction();
++       createNotificationChannel(this);
+         RecyclerView recyclerView = findViewById(R.id.sitrecyclerrview);
+         LinearLayoutManager layoutManager =
+                 new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+@@ -39,9 +45,37 @@
+     public long onClickgetid(long id) {
+         return id;
+     }
+-    public void forcheckIDandSwitch(int id,boolean b){
++
++    @Override
++    public void forcheckIDandSwitch(int id,boolean b ) {
+         DatabaseClass db=new DatabaseClass(this);
+         db.update(id,b);
+     }
+ 
++
++ /*   public void viewNotification(String Notification){
++
++        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "My Notiication")
++                .setContentTitle("NOTIFICATION")
++                .setContentText(Notification)
++                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
++        builder.setVibrate(new long[] { 1000, 1000});
++        builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
++        Random random = new Random();
++        int m = random.nextInt(9999 - 1000) + 1000;
++        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
++        notificationManager.notify(m, builder.build());
++    }**/
++ public void createNotificationChannel(Context context) {
++     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
++         NotificationChannel channel = new NotificationChannel("My Notiication", "My Notiication", NotificationManager.IMPORTANCE_DEFAULT);
++         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
++         notificationManager.createNotificationChannel(channel);
++     }
++ }
++
++
+ }
++
++
++
+Index: app/src/main/res/values/dimen.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/dimen.xml	(revision abba14327985cc2f329f51cf14b67004c09c7211)
++++ app/src/main/res/values/dimen.xml	(date 1625257508061)
+@@ -19,8 +19,8 @@
+     <dimen name="button_padding_top">5dp</dimen>
+     <dimen name="button_text_size">25dp</dimen>
+     <dimen name="linear_layout_margin_top">5dp</dimen>
+-    <dimen name="linear_layout_margin_Right">10dp</dimen>
+-    <dimen name="linear_layout_margin_left">10dp</dimen>
++    <dimen name="linear_layout_margin_Right">3dp</dimen>
++    <dimen name="linear_layout_margin_left">3dp</dimen>
+     <dimen name="button_layout_height">80dp</dimen>
+     <dimen name="savedsitautions_layout_margin_top">20dp</dimen>
+     <dimen name="savedsitautions_imageview_padding_top">10dp</dimen>
+Index: app/src/main/java/com/example/newawareness/Action.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/newawareness/Action.java	(date 1625248860470)
++++ app/src/main/java/com/example/newawareness/Action.java	(date 1625248860470)
+@@ -0,0 +1,20 @@
++package com.example.newawareness;
++
++public class Action {
++
++
++        /*public void viewNotification(String Notification,Context context){
++        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "My Notiication")
++                .setContentTitle("NOTIFICATION")
++                .setContentText(Notification)
++                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
++        builder.setVibrate(new long[] { 1000, 1000});
++        builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
++        Random random = new Random();
++        int m = random.nextInt(9999 - 1000) + 1000;
++            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
++        notificationManager.notify(m, builder.build());
++    }**/
++
++
++}
+Index: app/src/main/java/com/example/newawareness/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/newawareness/MainActivity.java	(revision abba14327985cc2f329f51cf14b67004c09c7211)
++++ app/src/main/java/com/example/newawareness/MainActivity.java	(date 1625257507936)
+@@ -89,6 +89,8 @@
+         mdatabaseHelper = new DatabaseClass(this);
+         object_situation = new ObjectSituation();
+         timeDate = new TimeDate();
++        Action action=new Action();
++//        action.createNotificationChannel();
+         getWidgets();
+         Click_Listners();
+     }
+@@ -105,7 +107,6 @@
+         btn_addSituation = (Button) findViewById(R.id.btn_addSituation);
+         btn_ShowSituations = (Button) findViewById(R.id.btn_showSituations);
+ 
+-
+     }
+ 
+ 
+@@ -258,6 +259,7 @@
+         btn_Time.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
++                if (is_DateSelected) {
+                 TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+ 
+                     @RequiresApi(api = Build.VERSION_CODES.O)
+@@ -289,13 +291,15 @@
+                 TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this, onTimeSetListener, 20, 8, true);
+                 timePickerDialog.setTitle("Select Time");
+                 timePickerDialog.show();
++                }else{
++                    Toast.makeText(MainActivity.this, "Please Set Date First", Toast.LENGTH_LONG).show();
++                }
+             }
+         });
+ 
+         btn_Date.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+-                if (is_TimeSelected) {
+                     DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                         @Override
+                         public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
+@@ -359,9 +363,7 @@
+                     DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, onDateSetListener, mYear, mMonth, mDay);
+                     datePickerDialog.setTitle("Select Date");
+                     datePickerDialog.show();
+-                }else{
+-                    Toast.makeText(MainActivity.this, "Please Set Time First", Toast.LENGTH_LONG).show();
+-                }
++
+             }
+         });
+ 
+@@ -392,7 +394,7 @@
+ 
+                         if (getActionItemFromIndexNumber(i) == getActionItemFromIndexNumber(1)) {
+                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+-                            builder.setTitle("Title");
++                            builder.setTitle("Please Set Your Notification");
+                             final EditText input = new EditText(MainActivity.this);
+                             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+                             builder.setView(input);
+@@ -467,8 +469,8 @@
+                 new Intent(FENCE_RECEIVER_ACTION), 0);
+         registerReceiver(mFenceReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
+         Awareness.getFenceClient(context).updateFences(new FenceUpdateRequest.Builder()
+-                // .addFence(String.valueOf(mdatabaseHelper.latestPrimarykey()), FinalFence, mPendingIntent)
+-                .addFence("dd", FinalFence, mPendingIntent)
++                .addFence(String.valueOf(mdatabaseHelper.latestPrimarykey()), FinalFence, mPendingIntent)
++                //.addFence("dd", FinalFence, mPendingIntent)
+                 .build())
+                 .addOnSuccessListener(new OnSuccessListener<Void>() {
+                     @Override
+Index: app/src/main/res/mipmap-anydpi-v26/ic_banner.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/mipmap-anydpi-v26/ic_banner.xml	(date 1625258764934)
++++ app/src/main/res/mipmap-anydpi-v26/ic_banner.xml	(date 1625258764934)
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
++    <background android:drawable="@color/ic_banner_background"/>
++    <foreground android:drawable="@drawable/ic_banner_foreground"/>
++</adaptive-icon>
+\ No newline at end of file
+Index: app/src/main/res/drawable-v24/ic_banner_foreground.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable-v24/ic_banner_foreground.xml	(date 1625258764948)
++++ app/src/main/res/drawable-v24/ic_banner_foreground.xml	(date 1625258764948)
+@@ -0,0 +1,84 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:aapt="http://schemas.android.com/aapt"
++    android:width="320dp"
++    android:height="180dp"
++    android:viewportWidth="320"
++    android:viewportHeight="180">
++  <group android:scaleX="0.6666667"
++      android:scaleY="0.6666667"
++      android:translateX="53.333332"
++      android:translateY="30">
++    <group android:scaleX="1.6666666"
++        android:scaleY="1.6666666"
++        android:translateX="-16.4">
++      <path
++          android:pathData="M31,63.928c0,0 6.4,-11 12.1,-13.1c7.2,-2.6 26,-1.4 26,-1.4l38.1,38.1L107,108.928l-32,-1L31,63.928zM43.4,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2c-0.3,-0.7 -0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C45.3,56.528 44.5,57.328 43.4,57.328L43.4,57.328zM64.6,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2s-0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C66.5,56.528 65.6,57.328 64.6,57.328L64.6,57.328z"
++          android:fillType="evenOdd">
++        <aapt:attr name="android:fillColor">
++          <gradient
++              android:startY="49.59793"
++              android:startX="42.9492"
++              android:endY="92.4963"
++              android:endX="85.84757"
++              android:type="linear">
++            <item
++                android:color="#44000000"
++                android:offset="0"/>
++            <item
++                android:color="#00000000"
++                android:offset="1"/>
++          </gradient>
++        </aapt:attr>
++      </path>
++
++      <path
++          android:pathData="M65.3,45.828l3.8,-6.6c0.2,-0.4 0.1,-0.9 -0.3,-1.1c-0.4,-0.2 -0.9,-0.1 -1.1,0.3l-3.9,6.7c-6.3,-2.8 -13.4,-2.8 -19.7,0l-3.9,-6.7c-0.2,-0.4 -0.7,-0.5 -1.1,-0.3C38.8,38.328 38.7,38.828 38.9,39.228l3.8,6.6C36.2,49.428 31.7,56.028 31,63.928h46C76.3,56.028 71.8,49.428 65.3,45.828zM43.4,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2c-0.3,-0.7 -0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C45.3,56.528 44.5,57.328 43.4,57.328L43.4,57.328zM64.6,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2s-0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C66.5,56.528 65.6,57.328 64.6,57.328L64.6,57.328z"
++          android:fillColor="#3DDC84"
++          android:fillType="evenOdd"
++          android:strokeWidth="1"
++          android:strokeColor="#00000000"/>
++    </group>
++
++    <group android:scaleX="0.1316388"
++        android:scaleY="0.1316388"
++        android:translateX="128"
++        android:translateY="79.101234">
++      <group android:translateY="130.35938">
++        <path android:pathData="M-1.84375,-0L39.265625,-103L53.734375,-103L94.84375,-0L80,-0L68.21875,-32L24.78125,-32L13,-0L-1.84375,-0ZM29.203125,-44L63.8125,-44L53.875,-70.9375Q49.078125,-84,46.5,-91Q44.375,-82.359375,40.78125,-72.59375L29.203125,-44Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M101,-23L114,-25Q115.015625,-18.21875,119.625,-14.609375Q124.25,-11,132.54688,-11Q140.90625,-11,144.95312,-14.09375Q149,-17.203125,149,-21.390625Q149,-25.125,144.46875,-27.28125Q141.29688,-28.75,132.0625,-31.03125Q119.640625,-34.5625,114.15625,-37.140625Q108.671875,-39.734375,105.828125,-44.28125Q103,-48.84375,103,-54.359375Q103,-59.390625,105.203125,-63.65625Q107.40625,-67.9375,111.203125,-70.765625Q114.046875,-72.953125,118.953125,-74.46875Q123.859375,-76,129.48438,-76Q137.95312,-76,144.34375,-73.34375Q150.75,-70.6875,153.79688,-66.140625Q156.84375,-61.609375,158,-54L145,-52Q144.25,-57.65625,140.64062,-60.828125Q137.03125,-64,130.4375,-64Q122.65625,-64,119.328125,-61.5Q116,-59.015625,116,-55.671875Q116,-53.546875,117.375,-51.84375Q118.765625,-50.09375,121.71875,-48.9375Q123.40625,-48.328125,131.6875,-46.140625Q143.6875,-42.546875,149.51562,-40.25Q155.35938,-37.953125,158.67188,-33.578125Q162,-29.203125,162,-22.71875Q162,-16.359375,158.35938,-10.75Q154.73438,-5.140625,147.89062,-2.0625Q141.04688,1,132.40625,1Q118.078125,1,110.578125,-5.046875Q103.078125,-11.109375,101,-23Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M173,-23L186,-25Q187.01562,-18.21875,191.625,-14.609375Q196.25,-11,204.54688,-11Q212.90625,-11,216.95312,-14.09375Q221,-17.203125,221,-21.390625Q221,-25.125,216.46875,-27.28125Q213.29688,-28.75,204.0625,-31.03125Q191.64062,-34.5625,186.15625,-37.140625Q180.67188,-39.734375,177.82812,-44.28125Q175,-48.84375,175,-54.359375Q175,-59.390625,177.20312,-63.65625Q179.40625,-67.9375,183.20312,-70.765625Q186.04688,-72.953125,190.95312,-74.46875Q195.85938,-76,201.48438,-76Q209.95312,-76,216.34375,-73.34375Q222.75,-70.6875,225.79688,-66.140625Q228.84375,-61.609375,230,-54L217,-52Q216.25,-57.65625,212.64062,-60.828125Q209.03125,-64,202.4375,-64Q194.65625,-64,191.32812,-61.5Q188,-59.015625,188,-55.671875Q188,-53.546875,189.375,-51.84375Q190.76562,-50.09375,193.71875,-48.9375Q195.40625,-48.328125,203.6875,-46.140625Q215.6875,-42.546875,221.51562,-40.25Q227.35938,-37.953125,230.67188,-33.578125Q234,-29.203125,234,-22.71875Q234,-16.359375,230.35938,-10.75Q226.73438,-5.140625,219.89062,-2.0625Q213.04688,1,204.40625,1Q190.07812,1,182.57812,-5.046875Q175.07812,-11.109375,173,-23Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M250,-90L250,-103L263,-103L263,-90L250,-90ZM250,0L250,-75L263,-75L263,0L250,0Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M277,-23L290,-25Q291.01562,-18.21875,295.625,-14.609375Q300.25,-11,308.54688,-11Q316.90625,-11,320.95312,-14.09375Q325,-17.203125,325,-21.390625Q325,-25.125,320.46875,-27.28125Q317.29688,-28.75,308.0625,-31.03125Q295.64062,-34.5625,290.15625,-37.140625Q284.67188,-39.734375,281.82812,-44.28125Q279,-48.84375,279,-54.359375Q279,-59.390625,281.20312,-63.65625Q283.40625,-67.9375,287.20312,-70.765625Q290.04688,-72.953125,294.95312,-74.46875Q299.85938,-76,305.48438,-76Q313.95312,-76,320.34375,-73.34375Q326.75,-70.6875,329.79688,-66.140625Q332.84375,-61.609375,334,-54L321,-52Q320.25,-57.65625,316.64062,-60.828125Q313.03125,-64,306.4375,-64Q298.65625,-64,295.32812,-61.5Q292,-59.015625,292,-55.671875Q292,-53.546875,293.375,-51.84375Q294.76562,-50.09375,297.71875,-48.9375Q299.40625,-48.328125,307.6875,-46.140625Q319.6875,-42.546875,325.51562,-40.25Q331.35938,-37.953125,334.67188,-33.578125Q338,-29.203125,338,-22.71875Q338,-16.359375,334.35938,-10.75Q330.73438,-5.140625,323.89062,-2.0625Q317.04688,1,308.40625,1Q294.07812,1,286.57812,-5.046875Q279.07812,-11.109375,277,-23Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M381,-11.328125L383,-0.140625Q377.6875,1,373.48438,1Q366.625,1,362.84375,-1.109375Q359.07812,-3.234375,357.53125,-6.6875Q356,-10.140625,356,-21.21875L356,-63L347,-63L347,-75L356,-75L356,-93.5L369,-101.09375L369,-75L381,-75L381,-63L369,-63L369,-20.953125Q369,-15.734375,369.625,-14.25Q370.26562,-12.765625,371.6875,-11.875Q373.10938,-11,375.76562,-11Q377.75,-11,381,-11.328125Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M441,-9Q434.1875,-3.515625,427.9375,-1.25Q421.6875,1,414.53125,1Q402.70312,1,396.34375,-4.875Q390,-10.765625,390,-19.90625Q390,-25.265625,392.39062,-29.703125Q394.79688,-34.140625,398.67188,-36.8125Q402.5625,-39.5,407.4375,-40.875Q411.01562,-41.84375,418.25,-42.734375Q432.98438,-44.53125,439.9375,-47Q440,-49.390625,440,-50.03125Q440,-57.140625,436.65625,-60.0625Q432.125,-64,423.1875,-64Q414.84375,-64,410.875,-61.125Q406.90625,-58.265625,405,-51L392,-53Q393.67188,-60.953125,397.5,-65.828125Q401.32812,-70.71875,408.57812,-73.359375Q415.82812,-76,425.375,-76Q434.84375,-76,440.76562,-73.703125Q446.6875,-71.40625,449.46875,-67.921875Q452.26562,-64.453125,453.375,-59.140625Q454,-55.84375,454,-48.015625L454,-32.359375Q454,-15.984375,454.79688,-10.5Q455.60938,-5.03125,458,0L445,0Q441.89062,-3.84375,441,-9ZM440,-35Q433.375,-32.6875,420.10938,-31.078125Q412.60938,-30.15625,409.48438,-29Q406.375,-27.84375,404.6875,-25.625Q403,-23.40625,403,-20.6875Q403,-16.53125,406.67188,-13.765625Q410.35938,-11,417.45312,-11Q424.46875,-11,429.9375,-13.9375Q435.40625,-16.890625,437.96875,-21.296875Q439.9375,-24.6875,439.9375,-31.328125L440,-35Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M474,0L474,-75L487,-75L487,-64.390625Q494.84375,-76,509.65625,-76Q516.09375,-76,521.4844,-73.578125Q526.8906,-71.171875,529.5625,-67.25Q532.25,-63.328125,533.3281,-57.9375Q534,-54.453125,534,-45.703125L534,0L521,0L521,-44.453125Q521,-52.03125,519.5781,-55.78125Q518.15625,-59.53125,514.53125,-61.765625Q510.92188,-64,506.0625,-64Q498.28125,-64,492.64062,-58.96875Q487,-53.953125,487,-39.921875L487,0L474,0Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M602,-28L615,-26Q612.96875,-13.328125,604.5625,-6.15625Q596.1719,1,583.9375,1Q568.625,1,559.3125,-8.875Q550,-18.765625,550,-37.21875Q550,-49.15625,553.9531,-58.09375Q557.90625,-67.046875,565.9844,-71.515625Q574.0781,-76,583.5781,-76Q595.5781,-76,603.2031,-70Q610.84375,-64.015625,613,-53L600,-51Q598.3125,-57.46875,594.0156,-60.734375Q589.7344,-64,583.65625,-64Q574.4844,-64,568.7344,-57.640625Q563,-51.296875,563,-37.5625Q563,-23.625,568.6719,-17.3125Q574.3594,-11,583.5,-11Q590.84375,-11,595.7656,-15.171875Q600.6875,-19.34375,602,-28Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M676.8594,-24L689.59375,-22Q686.4844,-11.0625,678.09375,-5.03125Q669.71875,1,656.6719,1Q640.25,1,630.625,-8.953125Q621,-18.90625,621,-36.875Q621,-55.46875,630.71875,-65.734375Q640.4531,-76,655.9531,-76Q670.96875,-76,680.4844,-65.859375Q690,-55.734375,690,-37.359375Q690,-36.234375,689.9375,-34L634,-34Q634.71875,-22.84375,641.0625,-16.921875Q647.40625,-11,656.8906,-11Q663.9531,-11,668.9375,-14.09375Q673.9375,-17.203125,676.8594,-24ZM634,-46L677,-46Q676.125,-53.90625,672.0625,-57.859375Q665.8281,-64,655.90625,-64Q646.90625,-64,640.78125,-59.09375Q634.65625,-54.203125,634,-46Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M748,0L748,-103L786.0469,-103Q796.09375,-103,801.3906,-102.015625Q808.8281,-100.75,813.84375,-97.203125Q818.875,-93.671875,821.9375,-87.28125Q825,-80.90625,825,-73.265625Q825,-60.15625,816.8906,-51.078125Q808.7969,-42,787.6094,-42L762,-42L762,0L748,0ZM762,-54L787.6094,-54Q800.3281,-54,805.65625,-58.9375Q811,-63.890625,811,-72.859375Q811,-79.34375,807.8594,-83.96875Q804.71875,-88.59375,799.5781,-90.078125Q796.2656,-91,787.34375,-91L762,-91L762,-54Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M842,0L842,-103L855,-103L855,0L842,0Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M921,0L921,-12.71875Q912.6719,1,898.375,1Q892.0625,1,886.5781,-1.515625Q881.1094,-4.03125,878.4531,-7.84375Q875.8125,-11.671875,874.7344,-17.1875Q874,-20.90625,874,-28.953125L874,-75L887,-75L887,-34.515625Q887,-24.8125,887.75,-21.453125Q888.90625,-16.5625,892.625,-13.78125Q896.3594,-11,901.8594,-11Q907.3594,-11,912.1719,-13.84375Q917,-16.703125,919,-21.609375Q921,-26.53125,921,-35.890625L921,-75L934,-75L934,0L921,0Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M949,-23L962,-25Q963.0156,-18.21875,967.625,-14.609375Q972.25,-11,980.5469,-11Q988.90625,-11,992.9531,-14.09375Q997,-17.203125,997,-21.390625Q997,-25.125,992.46875,-27.28125Q989.2969,-28.75,980.0625,-31.03125Q967.6406,-34.5625,962.15625,-37.140625Q956.6719,-39.734375,953.8281,-44.28125Q951,-48.84375,951,-54.359375Q951,-59.390625,953.2031,-63.65625Q955.40625,-67.9375,959.2031,-70.765625Q962.0469,-72.953125,966.9531,-74.46875Q971.8594,-76,977.4844,-76Q985.9531,-76,992.34375,-73.34375Q998.75,-70.6875,1001.7969,-66.140625Q1004.84375,-61.609375,1006,-54L993,-52Q992.25,-57.65625,988.6406,-60.828125Q985.03125,-64,978.4375,-64Q970.65625,-64,967.3281,-61.5Q964,-59.015625,964,-55.671875Q964,-53.546875,965.375,-51.84375Q966.7656,-50.09375,969.71875,-48.9375Q971.40625,-48.328125,979.6875,-46.140625Q991.6875,-42.546875,997.5156,-40.25Q1003.3594,-37.953125,1006.6719,-33.578125Q1010,-29.203125,1010,-22.71875Q1010,-16.359375,1006.3594,-10.75Q1002.7344,-5.140625,995.8906,-2.0625Q989.0469,1,980.40625,1Q966.0781,1,958.5781,-5.046875Q951.0781,-11.109375,949,-23Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M1051,29Q1040.0938,16.09375,1032.5469,-1.21875Q1025,-18.53125,1025,-37.0625Q1025,-53.40625,1030.6406,-68.390625Q1037.2344,-85.765625,1051,-103L1060,-103Q1051.0938,-88.71875,1048.2344,-82.609375Q1043.7344,-73.125,1041.1562,-62.828125Q1038,-49.984375,1038,-37Q1038,-3.96875,1060,29L1051,29Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M1100,-17L1100,-45L1072,-45L1072,-57L1100,-57L1100,-85L1112,-85L1112,-57L1140,-57L1140,-45L1112,-45L1112,-17L1100,-17Z"
++            android:fillColor="#000000"/>
++        <path android:pathData="M1165,29L1156,29Q1178,-3.96875,1178,-37Q1178,-49.90625,1174.8438,-62.609375Q1172.3281,-72.921875,1167.8438,-82.390625Q1164.9844,-88.578125,1156,-103L1165,-103Q1178.7656,-85.765625,1185.3594,-68.390625Q1191,-53.40625,1191,-37.0625Q1191,-18.53125,1183.4219,-1.21875Q1175.8438,16.09375,1165,29Z"
++            android:fillColor="#000000"/>
++      </group>
++    </group>
++  </group>
++</vector>
+\ No newline at end of file
+Index: app/src/main/java/com/example/newawareness/FenceReceiver.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/newawareness/FenceReceiver.java	(revision abba14327985cc2f329f51cf14b67004c09c7211)
++++ app/src/main/java/com/example/newawareness/FenceReceiver.java	(date 1625251199101)
+@@ -1,11 +1,15 @@
+ package com.example.newawareness;
+ 
+ import android.app.Activity;
++import android.app.NotificationManager;
+ import android.content.BroadcastReceiver;
+ import android.content.Context;
+ import android.content.Intent;
++import android.provider.Settings;
+ import android.util.Log;
+ 
++import androidx.core.app.NotificationCompat;
++
+ import com.android.volley.Request;
+ import com.android.volley.RequestQueue;
+ import com.android.volley.Response;
+@@ -23,6 +27,7 @@
+ import java.text.SimpleDateFormat;
+ import java.util.Date;
+ import java.util.Locale;
++import java.util.Random;
+ 
+ public class FenceReceiver extends BroadcastReceiver {
+     String fenceKey;
+@@ -41,7 +46,21 @@
+             case FenceState.TRUE:
+                 fenceKey = fenceState.getFenceKey();
+                 DatabaseClass databaseClass = new DatabaseClass(context);
+-                ObjectSituation objectSituation = databaseClass.checkKey_GetData(fenceKey);
++                int key=databaseClass.latestPrimarykey();
++                ObjectSituation objectSituation = databaseClass.checkKey_GetData(key);
++                if(objectSituation.getAction()==1){
++                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "My Notiication")
++                            .setContentTitle("NOTIFICATION")
++                            .setSmallIcon(R.drawable.cast_ic_notification_small_icon)
++                            .setContentText(objectSituation.getNotification())
++                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
++                    builder.setVibrate(new long[] { 1000, 1000});
++                    builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
++                    Random random = new Random();
++                    int m = random.nextInt(9999 - 1000) + 1000;
++                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
++                    notificationManager.notify(m, builder.build());
++                }
+              if(checkDate(objectSituation)){
+                  Log.i(TAG, "Date is exist and matched");
+ 
+Index: app/src/main/res/values/ic_banner_background.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/ic_banner_background.xml	(date 1625258764889)
++++ app/src/main/res/values/ic_banner_background.xml	(date 1625258764889)
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <color name="ic_banner_background">#FFFFFF</color>
++</resources>
+\ No newline at end of file
+diff --git app/src/main/res/mipmap-xhdpi/ic_launcher.png app/src/main/res/mipmap-xhdpi/ic_launcher.png
+index 6dba46dab19242bf475ddf2e0a10042de6a0be16..abbd1d8a9abcbb7c3bf12ecdf1cd0cc055ab348b
+GIT binary patch
+literal 1946
+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
+
+diff --git app/src/main/res/mipmap-xxhdpi/ic_launcher.png app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+index 15ac681720f3df43c647bf0c081f0314ee34eae1..704c83426fdd89c68f322bc1b92969b419224700
+GIT binary patch
+literal 2954
+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
+U8VKX;85?lR(A=Q@rc2zv0aY)YH2?qr
+
+diff --git app/src/main/res/mipmap-xxxhdpi/ic_launcher.png app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+index f25a419744727fb48b4b4137b6c6a3a8f2620d51..b29135288f19b07ecc9fc28a96d031186031c9b2
+GIT binary patch
+literal 4147
+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
+V;Bl)e-2+Ggaobp@Qrju!{{T`9rIr8y
+
+diff --git app/src/main/res/mipmap-xhdpi/ic_banner.png app/src/main/res/mipmap-xhdpi/ic_banner.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..9b1fb56ef0cec1de937608523bc28824311e32fc
+GIT binary patch
+literal 3914
+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
+
+diff --git app/src/main/res/mipmap-hdpi/ic_launcher.png app/src/main/res/mipmap-hdpi/ic_launcher.png
+index a571e60098c92c2baca8a5df62f2929cbff01b52..12edf657c206b7d303e43d0901be67bcf2b5a50f
+GIT binary patch
+literal 1598
+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
+
+diff --git app/src/main/res/mipmap-mdpi/ic_launcher.png app/src/main/res/mipmap-mdpi/ic_launcher.png
+index c41dd28531901b2c23927768c84bb6765ebcc1db..e6a0bfbd00cd90d5aced581a1b3015c7ca94c6ed
+GIT binary patch
+literal 820
+zc$@(=1Izr0P)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm0008}Nkl<Zc-rk*
+zJ&PJq6x~D<vRR12rU@j`1QJ3vQCktQNGwxYiiN%Y16w=GB@nO>u?Q$;e}IC57Jif#
+zf_;deu~T=P+%x!=L1sp0oN*?s4-RkCx%Zy)=H5FG-`Uw|Sa|R}ZzI@EhD{6chk%6^
+za(_PJ8|nIz@S5<-Bp~*s6gNfkG(RO=uh;9}9LJ5##D>E)IPDa{e!RWC{Z58F8CnLj
+z+3W{Vdmt--70Y}+e@+7az=-Ar%^c09U=w?R#Ux(CTCMg%%ynCU9dobOd$(GxrW*mA
+z*((nY8v(O&x%^SgRZ>8`UVl#lCRP+sC={;t6=2CHkjv#hodlc&oCMr=0fWJS?{qr4
+z6NOLsHe7($>*aB~RIo$H!zX+jE+COe2*E<3kZuCt3qIl7Z~^1-n0GiFLcmg~bTE1N
+zfG_xj@1qoPCX*3@y4`L?a+OL&fYLqi0blTW)GowoA(cwq<#95Z<b6J$@Vyl98}4CE
+z0Jd_uZ@2)gEX<rv=iMr*0c>E4Yo(`Tn1F0HtD3YN;Ol4tP-wAOOgHij@M(AvBX_l=
+zi<-3Beo5*k0IS1t)<__R_(|v@01lP9i{3yiCPEhhQaSH(xr8?-`ZuoCl7tOx;X}$E
+zF?A8Z+NDzGV0#%g5a+sFM?>s`1+aaJ5&=N10IAK~HW2$D0o`twlOw?1z~cRk8i@B%
+z?2Rl1+VyG|KzYdRYI}ziH*9ycWpL0ez~k|7$Lc(C00+$i=%eWZz(JFMP4}^c0IEf8
+z0)oMy(1pwdIDpH&`&Z)s{d2d`Xne5h6UgWDpOpj%hX%!B@#S*49Kpyc2OPwWpG+p>
+zbUOVO9IMr;UFnGFNx$F!Ng`m!Lx@>}#a=8He7oH)5x4Vw&d6+mK;Wv?YW*4xhm+}a
+z`j^ztFdq{v=4dpUG@H#Ezu%AavF&?Oc}{o}4u`+Q<MD6NXw(!S_E#F<vUByfMMNTz
+y$8>o?cxEy#z(v!+JBo#J?~$31E!fkr$oK~xA}i;WQo6+e0000<MNUMnLSTZHB!f->
+
