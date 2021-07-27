@@ -56,7 +56,8 @@ public class InstalledAppsActivity extends AppCompatActivity implements AppsAdap
         PackageManager packageManager = getPackageManager();
         ApplicationInfo data = applist.get(position);
         Intent intent = new Intent();
-        intent.putExtra("nameOfAction", data.loadLabel(packageManager));
+        intent.putExtra("nameOfApp",data.loadLabel(packageManager));
+        intent.putExtra("nameOfAppPakage", data.packageName);
         setResult(5, intent);
         finish();
     }

@@ -20,6 +20,15 @@ public class ObjectSituation {
     String date_txt;
     String time_txt;
     Boolean isSwitchActive;
+    String Pakagename;
+
+    public String getPakagename() {
+        return Pakagename;
+    }
+
+    public void setPakagename(String pakagename) {
+        Pakagename = pakagename;
+    }
 
     public boolean isIs_activitySelected() {
         return is_activitySelected;

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "453280538952",
+    "firebase_url": "https://loginpage-1667b-default-rtdb.firebaseio.com",
+    "project_id": "loginpage-1667b",
+    "storage_bucket": "loginpage-1667b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:453280538952:android:755aa6550eaa0d799cd37d",
+        "android_client_info": {
+          "package_name": "com.example.newawareness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "453280538952-plt4vqaddkt4ao29hia5sir1afgnh3e8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2rjdVoyAVhZxfiB0QBAiShY_TuSWQwWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "453280538952-plt4vqaddkt4ao29hia5sir1afgnh3e8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

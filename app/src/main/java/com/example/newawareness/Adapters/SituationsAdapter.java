@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.newawareness.Objects.ObjectSituation;
 import com.example.newawareness.OnItemClick;
 import com.example.newawareness.R;
-import com.example.newawareness.SavedSituationsActivity;
 import com.example.newawareness.Utilities.Utilities;
 
 import java.util.List;
@@ -62,12 +61,12 @@ public class SituationsAdapter extends RecyclerView.Adapter<SituationsAdapter.Vi
       holder.Physical.setText(String.valueOf(Utilities.getPhysicalActivityItemFromIndexNumber(object_situation.getActivity())));}
       holder.Action.setText(String.valueOf(Utilities.getActionItemFromIndexNumber(object_situation.getAction())));
       holder.SituationName.setText(object_situation.getSituationname());
-      holder.aSwitch.setChecked(true);
+      holder.aSwitch.setChecked(object_situation.getSwitchActive());
       holder.aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
           @Override
           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-              SavedSituationsActivity savedSituationsActivity=new SavedSituationsActivity();
-              savedSituationsActivity.forcheckIDandSwitch(position,mCallback.onClickswitchCheck(isChecked));
+              object_situation.setSwitchActive(mCallback.onClickswitchCheck(isChecked));
+              mCallback.forcheckIDandSwitch(position+1,object_situation.getSwitchActive());
           }
       });
    /*   holder.itemView.setOnClickListener(new AdapterView.OnItemClickListener() {

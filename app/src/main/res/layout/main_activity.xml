@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="2dp"
             android:layout_marginLeft="@dimen/linear_layout_margin_left"
             android:layout_marginRight="@dimen/linear_layout_margin_Right"
             android:background="@color/MainBackground_Color"
@@ -218,20 +218,29 @@
 
                 <Button
                     android:id="@+id/btn_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/button_rounded"
 
-                    android:background="@color/miniText_color"
                     android:text="DATE"
+                    android:layout_marginLeft="8dp"
                     >>
                 </Button>
                 <Button
                     android:id="@+id/btn_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="@dimen/button_margin_left"
-                    android:background="@color/miniText_color"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="2dp"
+
+
+
                     android:text="Time"
+                    android:background="@drawable/button_rounded"
+
 
 
                     >

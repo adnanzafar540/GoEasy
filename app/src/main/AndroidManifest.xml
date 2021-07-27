@@ -57,12 +57,21 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".Add_Patiet">  </activity>
+        <activity android:name=".Show_Add_records">  </activity>
+        <activity android:name=".FirstSelectionActivity">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".InstalledAppsActivity" />
+        <activity android:name=".Login" />
+        <activity android:name=".SignUP" />
         <activity android:name=".SavedSituationsActivity" />
 
         <receiver android:name=".FenceReceiver"

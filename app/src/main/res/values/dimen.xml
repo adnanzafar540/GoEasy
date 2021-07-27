@@ -19,8 +19,8 @@
     <dimen name="button_padding_top">5dp</dimen>
     <dimen name="button_text_size">25dp</dimen>
     <dimen name="linear_layout_margin_top">5dp</dimen>
-    <dimen name="linear_layout_margin_Right">10dp</dimen>
-    <dimen name="linear_layout_margin_left">10dp</dimen>
+    <dimen name="linear_layout_margin_Right">3dp</dimen>
+    <dimen name="linear_layout_margin_left">3dp</dimen>
     <dimen name="button_layout_height">80dp</dimen>
     <dimen name="savedsitautions_layout_margin_top">20dp</dimen>
     <dimen name="savedsitautions_imageview_padding_top">10dp</dimen>

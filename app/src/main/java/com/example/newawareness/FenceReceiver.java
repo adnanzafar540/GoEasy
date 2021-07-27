@@ -1,10 +1,15 @@
 package com.example.newawareness;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.provider.Settings;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,12 +28,15 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 public class FenceReceiver extends BroadcastReceiver {
     String fenceKey;
     Context context;
     String wheather;
     private static final String TAG = "FenceReceiver";
+    private PackageManager packageManager = null;
+
 
     public FenceReceiver(Activity activityContext) {
         context = activityContext;
@@ -41,7 +49,30 @@ public class FenceReceiver extends BroadcastReceiver {
             case FenceState.TRUE:
                 fenceKey = fenceState.getFenceKey();
                 DatabaseClass databaseClass = new DatabaseClass(context);
-                ObjectSituation objectSituation = databaseClass.checkKey_GetData(fenceKey);
+                int key = databaseClass.latestPrimarykey();
+                ObjectSituation objectSituation = databaseClass.checkKey_GetData(key);
+                if (objectSituation.getAction() == 1) {
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "My Notiication")
+                            .setContentTitle("NOTIFICATION")
+                            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                            .setContentText(objectSituation.getNotification())
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                    builder.setVibrate(new long[]{1000, 1000});
+                    builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+                    Random random = new Random();
+                    int m = random.nextInt(9999 - 1000) + 1000;
+                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.notify(m, builder.build());
+                }
+                if (objectSituation.getAction() == 0) {
+
+                    Intent intent1 = context.getPackageManager().getLaunchIntentForPackage(objectSituation.getPakagename());
+                    if (intent1 != null) {
+                        context.startActivity(intent1);
+                    }
+                }
+
+
              if(checkDate(objectSituation)){
                  Log.i(TAG, "Date is exist and matched");
 

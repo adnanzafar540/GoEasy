@@ -37,6 +37,7 @@ import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.FenceUpdateRequest;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -89,8 +90,12 @@ public class MainActivity extends AppCompatActivity  {
         mdatabaseHelper = new DatabaseClass(this);
         object_situation = new ObjectSituation();
         timeDate = new TimeDate();
+        Action action=new Action();
+//        action.createNotificationChannel();
         getWidgets();
         Click_Listners();
+        FirebaseApp.initializeApp(this);
+
     }
 
     public void getWidgets() {
@@ -104,7 +109,6 @@ public class MainActivity extends AppCompatActivity  {
         btn_Action = (Button) findViewById(R.id.btn_Acction);
         btn_addSituation = (Button) findViewById(R.id.btn_addSituation);
         btn_ShowSituations = (Button) findViewById(R.id.btn_showSituations);
-
 
     }
 
@@ -258,6 +262,7 @@ public class MainActivity extends AppCompatActivity  {
         btn_Time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (is_DateSelected) {
                 TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
 
                     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -289,13 +294,15 @@ public class MainActivity extends AppCompatActivity  {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this, onTimeSetListener, 20, 8, true);
                 timePickerDialog.setTitle("Select Time");
                 timePickerDialog.show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Please Set Date First", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
         btn_Date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (is_TimeSelected) {
                     DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
@@ -359,9 +366,7 @@ public class MainActivity extends AppCompatActivity  {
                     DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, onDateSetListener, mYear, mMonth, mDay);
                     datePickerDialog.setTitle("Select Date");
                     datePickerDialog.show();
-                }else{
-                    Toast.makeText(MainActivity.this, "Please Set Time First", Toast.LENGTH_LONG).show();
-                }
+
             }
         });
 
@@ -392,7 +397,7 @@ public class MainActivity extends AppCompatActivity  {
 
                         if (getActionItemFromIndexNumber(i) == getActionItemFromIndexNumber(1)) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                            builder.setTitle("Title");
+                            builder.setTitle("Please Set Your Notification");
                             final EditText input = new EditText(MainActivity.this);
                             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
                             builder.setView(input);
@@ -428,9 +433,12 @@ public class MainActivity extends AppCompatActivity  {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 5) {
-            String NameOfApp = data.getStringExtra("nameOfAction");
-            btn_Action.setText("Open" + " " + NameOfApp);
-            object_situation.setAppname(NameOfApp);
+            String nameOfApp = data.getStringExtra("nameOfApp");
+            String nameOfAppPakage = data.getStringExtra("nameOfAppPakage");
+            object_situation.setPakagename(nameOfAppPakage);
+
+            btn_Action.setText("Open" + " " + nameOfApp);
+            object_situation.setAppname(nameOfApp);
             is_actionSelected = true;
 
 
@@ -467,8 +475,8 @@ public class MainActivity extends AppCompatActivity  {
                 new Intent(FENCE_RECEIVER_ACTION), 0);
         registerReceiver(mFenceReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
         Awareness.getFenceClient(context).updateFences(new FenceUpdateRequest.Builder()
-                // .addFence(String.valueOf(mdatabaseHelper.latestPrimarykey()), FinalFence, mPendingIntent)
-                .addFence("dd", FinalFence, mPendingIntent)
+                .addFence(String.valueOf(mdatabaseHelper.latestPrimarykey()), FinalFence, mPendingIntent)
+                //.addFence("dd", FinalFence, mPendingIntent)
                 .build())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
