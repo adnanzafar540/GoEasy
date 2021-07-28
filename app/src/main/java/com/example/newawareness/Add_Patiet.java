@@ -23,6 +23,7 @@ public class Add_Patiet extends AppCompatActivity {
         Descriptionnn=(EditText)findViewById(R.id.description);
         date=(EditText)findViewById(R.id.date);
     }
+
     public void process(View view){
 
 
