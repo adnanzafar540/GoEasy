@@ -30,10 +30,10 @@ public class Add_Patiet extends AppCompatActivity {
         String Description=Descriptionnn.getText().toString();
         String PatientName=patientname.getText().toString();
         String DoctorName=Doctorname.getText().toString();
-        Dataholder Data=new Dataholder(Date,DoctorName,Description,PatientName);
+        Dataholder Data=new Dataholder(DoctorName,Description,PatientName);
 
         FirebaseDatabase db=FirebaseDatabase.getInstance();
-        DatabaseReference reference=db.getReference("PatientHistory");
+        DatabaseReference reference=db.getReference("patienthistory");
         reference.child(Date).setValue(Data);
 
         patientname.setText("");
