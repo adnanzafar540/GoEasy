@@ -21,6 +21,7 @@ public class Add_Patiet extends AppCompatActivity {
         patientname=(EditText)findViewById(R.id.patientName);
         Doctorname=(EditText)findViewById(R.id.Doctornamr);
         Descriptionnn=(EditText)findViewById(R.id.description);
+
         date=(EditText)findViewById(R.id.date);
     }
 
