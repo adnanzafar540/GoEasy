@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:text="Please select one state"
             android:textStyle="bold"
+            android:paddingLeft="10dp"
 
             android:textSize="30dp"
             android:layout_marginTop="50dp"></TextView>

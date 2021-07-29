@@ -5,6 +5,17 @@ public class Dataholder {
     String Description;
     String PatientName;
     String DoctorName;
+
+    public int getDate() {
+        return date;
+    }
+
+    public void setDate(int date) {
+        this.date = date;
+    }
+
+    int date;
+    public Dataholder(){}
     public  Dataholder( String DoctorName, String Description, String patientName){
         this.Description=Description;
         this.DoctorName=DoctorName;

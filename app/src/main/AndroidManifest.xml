@@ -73,6 +73,7 @@
         <activity android:name=".Login" />
         <activity android:name=".SignUP" />
         <activity android:name=".SavedSituationsActivity" />
+        <activity android:name=".show_patient_records" />
 
         <receiver android:name=".FenceReceiver"
             android:enabled="true"

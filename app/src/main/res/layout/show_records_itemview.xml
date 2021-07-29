@@ -1,0 +1,57 @@
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/MainBackground_Color"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Patient Record"
+        android:textStyle="bold"
+        android:textSize="40dp"
+        android:gravity="center">
+
+    </TextView>
+    <EditText
+        android:id="@+id/date_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="date"
+        android:textSize="35dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/rectangularback">
+
+    </EditText>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="patient name"
+        android:paddingLeft="10dp"
+        android:textSize="35dp"
+        android:id="@+id/patient_name_record"
+        android:background="@drawable/rectangularback">
+
+    </EditText>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:hint="doctor name"
+        android:textSize="35dp"
+        android:id="@+id/doctor_name_record"
+        android:background="@drawable/rectangularback">
+
+    </EditText>
+    <EditText
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="desccription"
+        android:id="@+id/description_record"
+        android:textSize="35dp"
+        android:background="@drawable/rectangularback">
+
+    </EditText>
+</LinearLayout>

@@ -90,8 +90,6 @@ public class MainActivity extends AppCompatActivity  {
         mdatabaseHelper = new DatabaseClass(this);
         object_situation = new ObjectSituation();
         timeDate = new TimeDate();
-        Action action=new Action();
-//        action.createNotificationChannel();
         getWidgets();
         Click_Listners();
         FirebaseApp.initializeApp(this);
