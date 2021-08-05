@@ -18,6 +18,16 @@ public class Show_Add_records extends AppCompatActivity {
         setContentView(R.layout.add_show_records);
         Add_Records=(EditText)findViewById(R.id.Addrecord);
         Show_Records=(EditText)findViewById(R.id.showrecord);
+        Show_Records.setFocusable(false);
+        Add_Records.setFocusable(false);
+        Show_Records.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(Show_Add_records.this, show_patient_records.class);
+                startActivity(intent);
+                finish();
+                return false;            }
+        });
         Add_Records.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

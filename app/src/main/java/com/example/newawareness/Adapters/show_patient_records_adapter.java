@@ -34,7 +34,7 @@ public class show_patient_records_adapter extends RecyclerView.Adapter<show_pati
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Dataholder dataholder=list.get(position);
-        holder.date.setText(dataholder.getDate());
+        holder.date.setText(String.valueOf(dataholder.getDate()));
         holder.patient_name.setText(dataholder.getPatientName());
         holder.doctor_name.setText(dataholder.getDoctorName());
         holder.desccription.setText(dataholder.getDescription());

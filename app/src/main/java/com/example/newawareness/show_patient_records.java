@@ -1,5 +1,6 @@
 package com.example.newawareness;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newawareness.Adapters.show_patient_records_adapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,7 +22,8 @@ import java.util.ArrayList;
 
 public class show_patient_records extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
-    DatabaseReference root=firebaseDatabase.getReference().child("patienthistory");
+    String  user= FirebaseAuth.getInstance().getUid();
+    DatabaseReference root=firebaseDatabase.getReference("patienthistory");
 
     com.example.newawareness.Adapters.show_patient_records_adapter show_patient_records_adapter;
     ArrayList<Dataholder> list;
@@ -37,8 +40,16 @@ public class show_patient_records extends AppCompatActivity {
         root.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    Dataholder dataholder=dataSnapshot.getValue(Dataholder.class);
+                /*for (DataSnapshot ds:snapshot.getChildren()){
+                  Dataholder dataholder=ds.getValue(Dataholder.class);
+                  list.add(dataholder);
+                }**/
+                for (DataSnapshot ds:snapshot.getChildren()) {
+                    String date=ds.child("date").getValue(String.class);
+                    String Description = ds.child("description").getValue(String.class);
+                    String DoctorName = ds.child("doctorName").getValue(String.class);
+                    String PatientName = ds.child("patientName").getValue(String.class);
+                    Dataholder dataholder = new Dataholder(date, DoctorName, Description, PatientName);
                     list.add(dataholder);
                 }
                 show_patient_records_adapter.notifyDataSetChanged();
@@ -54,4 +65,13 @@ public class show_patient_records extends AppCompatActivity {
 
 
 }
+    public void onBackPressed()
+    {
+
+        Intent moveback =
+                new Intent(show_patient_records.this, Show_Add_records.class);
+        startActivity(moveback);
+        finish();
+    }
+
 }

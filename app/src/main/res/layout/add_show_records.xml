@@ -26,7 +26,6 @@
             android:layout_width="350dp"
             android:id="@+id/Addrecord"
             android:layout_height="wrap_content"
-
             android:text="Add Records"
             android:textSize="35dp"
             android:gravity="center"

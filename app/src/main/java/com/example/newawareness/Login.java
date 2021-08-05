@@ -30,6 +30,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        mAuth = FirebaseAuth.getInstance();
         email = (TextView) findViewById(R.id.email);
         Password = (EditText) findViewById(R.id.password);
         signupAccount = (TextView) findViewById(R.id.Createacount);
@@ -65,7 +66,6 @@ public class Login extends AppCompatActivity {
     public void singin(View view) {
         String Email = email.getText().toString();
         final String Pass = Password.getText().toString();
-        mAuth = FirebaseAuth.getInstance();
         if (TextUtils.isEmpty(Email)) {
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
             return;
