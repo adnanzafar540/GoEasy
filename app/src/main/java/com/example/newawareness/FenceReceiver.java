@@ -34,6 +34,7 @@ public class FenceReceiver extends BroadcastReceiver {
     String fenceKey;
     Context context;
     String wheather;
+    TimeDate timeDate;
     private static final String TAG = "FenceReceiver";
     private PackageManager packageManager = null;
 
@@ -51,6 +52,13 @@ public class FenceReceiver extends BroadcastReceiver {
                 DatabaseClass databaseClass = new DatabaseClass(context);
                 int key = databaseClass.latestPrimarykey();
                 ObjectSituation objectSituation = databaseClass.checkKey_GetData(key);
+                if (checkDate(objectSituation)&&(checkWeather(objectSituation))){
+                    Log.i(TAG, "Date is exist and matched");
+
+                } else if (checkWeather(objectSituation)) {
+                    Log.i(TAG, "Weather is exist and matched");
+
+                }
                 if (objectSituation.getAction() == 1) {
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "My Notiication")
                             .setContentTitle("NOTIFICATION")
@@ -63,29 +71,17 @@ public class FenceReceiver extends BroadcastReceiver {
                     int m = random.nextInt(9999 - 1000) + 1000;
                     NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                     notificationManager.notify(m, builder.build());
-                }
-                if (objectSituation.getAction() == 0) {
+                } else if (objectSituation.getAction() == 0) {
 
                     Intent intent1 = context.getPackageManager().getLaunchIntentForPackage(objectSituation.getPakagename());
                     if (intent1 != null) {
                         context.startActivity(intent1);
+                    } else {
+                        Log.i(TAG, "just for checking");
                     }
+                } else {
+                    Log.i(TAG, "just for checking");
                 }
-
-
-             if(checkDate(objectSituation)){
-                 Log.i(TAG, "Date is exist and matched");
-
-             }else{
-                 Log.i(TAG, "Date is not exist and matched");
-
-             };
-                if(checkWeather(objectSituation)){
-                    Log.i(TAG, "Weather is exist and matched");
-
-                }else {
-                    Log.i(TAG, "Weather is  not exist and matched");
-                };
                 break;
             case FenceState.FALSE:
                 Log.i(TAG, "User is not walking");
@@ -97,24 +93,25 @@ public class FenceReceiver extends BroadcastReceiver {
     }
 
     public boolean checkDate(ObjectSituation objectSituation) {
-        String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date());
-        if (objectSituation.getDate() == null) {
+        String date = new SimpleDateFormat("MM-dd-yyyy/HH:mm", Locale.getDefault()).format(new Date());
+        timeDate = new TimeDate();
+        String TimeDate = timeDate.getDate() + "/" + timeDate.getTime();
+
+        if (TimeDate == null) {
             return true;
-        } else if (date.equals(objectSituation.getDate())){
+        } else if (date.equals(TimeDate)) {
 
-                return true;
-            }
-
-        else{
+            return true;
+        } else {
             return false;
 
         }
     }
+
     public boolean checkWeather(ObjectSituation objectSituation) {
-        if(objectSituation.getWeather()==0){
+        if (objectSituation.getWeather() == 0) {
             return true;
-        }
-        else {
+        } else {
             String cityname = objectSituation.getCity_name();
             String countryname = objectSituation.getCountry_name();
 

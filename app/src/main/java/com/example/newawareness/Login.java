@@ -26,6 +26,7 @@ public class Login extends AppCompatActivity {
     TextView Password;
     FirebaseAuth mAuth;
         TextView signupAccount;
+        public static String Email;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +65,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void singin(View view) {
-        String Email = email.getText().toString();
+         Email = email.getText().toString();
         final String Pass = Password.getText().toString();
         if (TextUtils.isEmpty(Email)) {
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -100,6 +101,30 @@ public class Login extends AppCompatActivity {
 
                 });
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

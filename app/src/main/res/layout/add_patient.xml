@@ -40,6 +40,17 @@
         app:layout_constraintVertical_bias="0.215">
 
         <EditText
+            android:id="@+id/record_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rectangularback"
+            android:gravity="center"
+            android:hint="Enter record no"
+            android:inputType="date"
+            android:textSize="30dp"
+            tools:ignore="MissingConstraints"></EditText>
+            <EditText
             android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

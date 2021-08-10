@@ -37,7 +37,7 @@ public class show_patient_records extends AppCompatActivity {
         list=new ArrayList<>();
         show_patient_records_adapter = new show_patient_records_adapter(list,this);
         recyclerView.setAdapter(show_patient_records_adapter);
-        root.addValueEventListener(new ValueEventListener() {
+        root.orderByChild("email").equalTo(Login.Email).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 /*for (DataSnapshot ds:snapshot.getChildren()){
@@ -49,7 +49,9 @@ public class show_patient_records extends AppCompatActivity {
                     String Description = ds.child("description").getValue(String.class);
                     String DoctorName = ds.child("doctorName").getValue(String.class);
                     String PatientName = ds.child("patientName").getValue(String.class);
-                    Dataholder dataholder = new Dataholder(date, DoctorName, Description, PatientName);
+                    String email = ds.child("email").getValue(String.class);
+                    String recorf = ds.child("record").getValue(String.class);
+                    Dataholder dataholder = new Dataholder(date,email,DoctorName, Description, PatientName,recorf);
                     list.add(dataholder);
                 }
                 show_patient_records_adapter.notifyDataSetChanged();

@@ -7,6 +7,28 @@ public class Dataholder {
     String DoctorName;
     String  date;
 
+    public String getRecord() {
+        return record;
+    }
+
+    public void setRecord(String record) {
+        this.record = record;
+    }
+
+    String  record;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    String  email;
+
+
+
     public String getUserid() {
         return userid;
     }
@@ -29,11 +51,13 @@ public class Dataholder {
     public Dataholder(){
         return;
     }
-    public  Dataholder(String  date, String DoctorName, String Description, String patientName){
+    public  Dataholder(String  date, String email,String DoctorName, String Description, String patientName,String record){
+        this.record=record;
         this.Description=Description;
         this.DoctorName=DoctorName;
         this.PatientName=patientName;
         this.date=date;
+        this.email=email;
         this.userid=userid;
     }
 

@@ -151,7 +151,8 @@ public class DatabaseClass extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_12, b);
-        int result =    db.update(TABLE_NAME, contentValues, "id = ?", new String[]{ String.valueOf(id+1)});       result=result+1;
+        int result =    db.update(TABLE_NAME, contentValues, "id = ?", new String[]{ String.valueOf(id)});
+        result=result+1;
 
 
     }

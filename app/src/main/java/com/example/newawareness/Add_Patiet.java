@@ -17,6 +17,7 @@ public class Add_Patiet extends AppCompatActivity {
     EditText Doctorname;
     EditText Descriptionnn;
     EditText date;
+    EditText record_no;
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_patient);
@@ -24,6 +25,7 @@ public class Add_Patiet extends AppCompatActivity {
         Doctorname=(EditText)findViewById(R.id.Doctornamr);
         Descriptionnn=(EditText)findViewById(R.id.description);
         date=(EditText)findViewById(R.id.date);
+        record_no=(EditText)findViewById(R.id.record_no);
     }
 
 
@@ -44,16 +46,18 @@ public class Add_Patiet extends AppCompatActivity {
         String Description=Descriptionnn.getText().toString();
         String PatientName=patientname.getText().toString();
         String DoctorName=Doctorname.getText().toString();
-        Dataholder Data=new Dataholder(Date,DoctorName,Description,PatientName);
+        String record=record_no.getText().toString();
+        Dataholder Data=new Dataholder(Date,Login.Email,DoctorName,Description,PatientName,record);
         String user= FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase db=FirebaseDatabase.getInstance();
         DatabaseReference reference=db.getReference("patienthistory");
-        reference.child(Date).child(user).setValue(Data);
+        reference.child(record).setValue(Data);
 
         patientname.setText("");
         Doctorname.setText("");
         Descriptionnn.setText("");
         date.setText("");
+        record_no.setText("");
 
     }
 }
