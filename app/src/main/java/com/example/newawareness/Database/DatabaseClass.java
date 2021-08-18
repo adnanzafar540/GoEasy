@@ -155,6 +155,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_12, b);
         int result =    db.update(TABLE_NAME, contentValues, "id = ?", new String[]{ String.valueOf(id)});
+
         result=result+1;
 
 
