@@ -1,5 +1,6 @@
 package com.example.newawareness;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
@@ -29,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.newawareness.Database.DatabaseClass;
 import com.example.newawareness.Objects.ObjectSituation;
@@ -147,12 +150,13 @@ public class MainActivity extends AppCompatActivity  {
                     if (is_activitySelected) {
                         list.add(FenceCreateUtilites.createphysicalactivityFence(getIndexPhysicalActivitydetected(object_situation.getActivity())));
                     }
-                    if (is_locationSelected) {
+                   /* if (is_locationSelected) {
                         list.add(FenceCreateUtilites.createLocationFence(object_situation.getLongi(), object_situation.getLat(), 500L,start
                                 , MainActivity.this));
-                    }
+                    }**/
                     if (is_TimeSelected) {
-                        list.add(FenceCreateUtilites.createTimeDateFence(object_situation.getTime(), object_situation.getTime(), MainActivity.this));
+                        long timeinmilli=object_situation.getTime();
+                        list.add(FenceCreateUtilites.createTimeDateFence(object_situation.getTime(), object_situation.getTime()+60000l, MainActivity.this));
                     }
                     AwarenessFence finalFence = FenceCreateUtilites.getFinalFence(list);
                     mdatabaseHelper.insertData(object_situation);
@@ -212,7 +216,6 @@ public class MainActivity extends AppCompatActivity  {
         tv_Weather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (is_locationSelected) {
                     getWeatherList();
                     AlertDialog.Builder Builder;
                     Builder = new AlertDialog.Builder(MainActivity.this);
@@ -231,16 +234,16 @@ public class MainActivity extends AppCompatActivity  {
                     });
                     AlertDialog alert = Builder.create();
                     alert.show();
-                } else {
-                    Toast.makeText(MainActivity.this, "Please chose location first ", Toast.LENGTH_LONG).show();
-
-                }
             }
         });
 
         tv_PhysicalActivity.setOnClickListener(new View.OnClickListener() {
+
             @Override
+
             public void onClick(View view) {
+                permissions();
+
                 AlertDialog.Builder Builder;
                 Builder = new AlertDialog.Builder(MainActivity.this);
                 Builder.setTitle("Select PhysicalActivity State");
@@ -281,7 +284,7 @@ public class MainActivity extends AppCompatActivity  {
                         timeInMillisecond = dateTime.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli();
                         //  LocalDateTime localDate = LocalDateTime.parse(TimeDate, dateFormat);
                         //   long timeInMilliseconds = localDate.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli();
-
+                        timeInMillisecond=timeInMillisecond-5*3600000;
                         btn_Time.setText(Time);
                         object_situation.setTime(timeInMillisecond);
                         Toast.makeText(MainActivity.this, "Time has been set", Toast.LENGTH_LONG).show();
@@ -504,6 +507,16 @@ public class MainActivity extends AppCompatActivity  {
         else{
             return;
        }}
+       public void permissions(){
+
+           if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
+                   != PackageManager.PERMISSION_GRANTED) {
+               // Permission is not granted
+               /*ActivityCompat.requestPermissions(this,
+                       arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
+                       MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION)**/
+           }
+       }
 }
 
 

@@ -55,7 +55,7 @@ public class FenceReceiver extends BroadcastReceiver {
                 ObjectSituation objectSituation = databaseClass.checkKey_GetData(key);
                 wheatherexists(objectSituation);
                 date_time_exists(timeDate);
-                if (objectSituation.getAction() == 1) {
+                if ((objectSituation.getAction() == 1) &&(objectSituation.getSwitchActive())) {
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "My Notiication")
                             .setContentTitle("NOTIFICATION")
                             .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
@@ -68,7 +68,7 @@ public class FenceReceiver extends BroadcastReceiver {
                     NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                     notificationManager.notify(m, builder.build());
                 }
-               else if (objectSituation.getAction() == 0) {
+               else if ((objectSituation.getAction() == 0) &&(objectSituation.getSwitchActive())) {
 
                     Intent intent1 = context.getPackageManager().getLaunchIntentForPackage(objectSituation.getPakagename());
                     if (intent1 != null) {
@@ -111,8 +111,10 @@ public class FenceReceiver extends BroadcastReceiver {
             return true;
         }
         else {
-            String cityname = objectSituation.getCity_name();
-            String countryname = objectSituation.getCountry_name();
+           // String cityname = objectSituation.getCity_name();
+            //String countryname = objectSituation.getCountry_name();
+            String cityname = "lahore";
+            String countryname = "pakistan";
 
             String url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityname + "," + countryname + "uk&APPID=a46e8db6cdb0ae1b25ec614aa18a8c52";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -141,8 +143,11 @@ public class FenceReceiver extends BroadcastReceiver {
             if (wheather == objectSituation.getWeather_txt()) {
                 return true;
             }
+            else {
+                return false;
+            }
         }
-        return false;
+
     }
     public void wheatherexists(ObjectSituation objectSituation){
         if(objectSituation.getWeather()==0){

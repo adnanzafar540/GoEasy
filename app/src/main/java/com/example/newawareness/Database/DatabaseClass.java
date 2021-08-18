@@ -28,6 +28,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
     public static final String COL_11 = "SetTime";
     public static final String COL_12 = "checkSwitch";
     public static final String COL_13 = "PakageName";
+    public static final String COL_14 = "wheathertxt";
 
 
     public DatabaseClass(Context context) {
@@ -42,7 +43,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
                 " (id integer primary key," + COL_1 + " VARCHAR," +
                 COL_2 + " VARCHAR," + COL_3 + " VARCHAR," +
                 COL_4 + " VARCHAR," + COL_5 + " VARCHAR," + COL_6
-                + " VARCHAR," + COL_7 + " VARCHAR," + COL_8 + " VARCHAR," + COL_9 +" VARCHAR," + COL_10 +" VARCHAR," + COL_11+ " VARCHAR," +COL_12 +" VARCHAR,"+ COL_13 + " VARCHAR);";
+                + " VARCHAR," + COL_7 + " VARCHAR," + COL_8 + " VARCHAR," + COL_9 +" VARCHAR," + COL_10 +" VARCHAR," + COL_11+ " VARCHAR," +COL_12 +" VARCHAR," +COL_13 +" VARCHAR,"+ COL_14 + " VARCHAR);";
         db.execSQL(Table);
     }
 
@@ -85,6 +86,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
             boolean value = cursor.getInt(12) > 0;
             object_situation.setSwitchActive(value);
             object_situation.setPakagename(cursor.getString(13));
+            object_situation.setWeather_txt(cursor.getString(14));
 
         }
         return object_situation;
@@ -109,6 +111,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
         contentValues.put(COL_11, object_situation.getTime());
         contentValues.put(COL_12, object_situation.getSwitchActive());
         contentValues.put(COL_13, object_situation.getPakagename());
+        contentValues.put(COL_14, object_situation.getWeather_txt());
 
         long result = db.insert(TABLE_NAME, null, contentValues);
         if (result == -1)
