@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Assistance Plus(+)</string>
+    <string name="app_name">Assistant Plus</string>
     <string name="headphone_state">Headphone State</string>
     <string name="Chose_State">Choose State</string>
     <string name="Select_Action">Select Action</string>
@@ -11,12 +11,11 @@
     <string name="Open_Gallery">Open:Gallery</string>
     <string name="plug_StateIn">Plugged In</string>
     <string name="plug_StateOut">Plugged Out</string>
-
     <color name="MainBackground_Color">#2196f3</color>
     <color name="Text_color">#ffffff</color>
     <color name="miniText_color">#e6e600</color>
     <string name="title_activity_maps">Map</string>
-
+    <string name="email_address">Email address</string>
 
 
 </resources>

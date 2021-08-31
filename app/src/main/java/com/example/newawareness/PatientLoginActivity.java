@@ -20,7 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Login extends AppCompatActivity {
+public class PatientLoginActivity extends AppCompatActivity {
     Button submit;
     TextView email;
     TextView Password;
@@ -30,40 +30,32 @@ public class Login extends AppCompatActivity {
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.patient_login);
         mAuth = FirebaseAuth.getInstance();
-        email = (TextView) findViewById(R.id.email);
-        Password = (EditText) findViewById(R.id.password);
-        signupAccount = (TextView) findViewById(R.id.Createacount);
-        submit = (Button) findViewById(R.id.submitt);
+        email = (TextView) findViewById(R.id.patient_login_email);
+        Password = (EditText) findViewById(R.id.patient_login_password);
+        signupAccount = (TextView) findViewById(R.id.tv_patient_signup);
+        submit = (Button) findViewById(R.id.btn_patient_login);
         signupAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Login.this, SignUP.class);
+                Intent intent = new Intent(PatientLoginActivity.this, PatientSignUPActivity.class);
                 startActivity(intent);
                 finish();
                 email.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                     }
-
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                       // String SituationName = Situation_Name.getText().toString();
-
                     }
-
                     @Override
                     public void afterTextChanged(Editable s) {
-
                     }
                 });
             }
         });
-
     }
-
     public void singin(View view) {
          Email = email.getText().toString();
         final String Pass = Password.getText().toString();
@@ -71,34 +63,25 @@ public class Login extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (TextUtils.isEmpty(Pass)) {
             Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
+            return; }
         mAuth.signInWithEmailAndPassword(Email, Pass)
-                .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(PatientLoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signe
                         if (!task.isSuccessful()) {
-                            // there was an error
                             if (Pass.length() < 6) {
-                                Toast.makeText(Login.this,"Please Enter Password Length Above 6", Toast.LENGTH_LONG).show();
+                                Toast.makeText(PatientLoginActivity.this,"Please Enter Password Length Above 6", Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(Login.this,"Not Authentic Loag_in Details", Toast.LENGTH_LONG).show();
+                                Toast.makeText(PatientLoginActivity.this,"Not Authentic Loag_in Details", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Intent intent = new Intent(Login.this, Show_Add_records.class);
+                            Intent intent = new Intent(PatientLoginActivity.this, ShowORAddRecordsActivity.class);
                             startActivity(intent);
                             finish();
                         }
                     }
-
-
                 });
     }
 

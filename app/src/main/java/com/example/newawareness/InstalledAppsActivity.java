@@ -25,7 +25,7 @@ public class InstalledAppsActivity extends AppCompatActivity implements AppsAdap
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.installed_apps_recyclerview);
-        RecyclerView AppListRecycleView = findViewById(R.id.Applist);
+        RecyclerView AppListRecycleView = findViewById(R.id.item_view_applist);
         AppsName = (TextView) findViewById(R.id.Appname);
         AppListRecycleView.setLayoutManager(new LinearLayoutManager(this));
         final PackageManager packageManager = getPackageManager();

@@ -9,12 +9,10 @@ public class Utilities {
     public static String[] getHeadphoneList() {
         return new String[]{"Plugged In", "Plugged Out",};
     }
-
     public static String getHeadphoneItemFromIndexNumber(int index) {
         String item = getHeadphoneList()[index];
         return item;
     }
-
     public static String[] getWeatherList() {
         return new String[]{"Thunderstorm", "Drizzle", "Rain", "Snow", "Clear", "Clouds", "Snowy", "Stormy", "Windy","Haze"};
     }
@@ -32,16 +30,12 @@ public class Utilities {
         return new String[]{"In Vehicle", "On Bicycle", "On Foot", "Still", "Walking","Running"};
     }
     public static String getPhysicalActivityItemFromIndexNumber(int index) {
-
-
         String item = getPhysicalActivityList()[index];
         return item;
     }
-
     public static String[] getActionList() {
         return new String[]{"Open Application", "Show notification"};
     }
-
     public static List<ApplicationInfo> getAppList() {
         PackageManager packageManager;
         packageManager = null;
@@ -49,7 +43,6 @@ public class Utilities {
         appList = (packageManager.getInstalledApplications(packageManager.GET_META_DATA));
         return appList;
     }
-
     public static List<ApplicationInfo> getAppListindex(int index) {
         ApplicationInfo item = getAppList().get(index);
         return (List<ApplicationInfo>) item;
@@ -59,6 +52,4 @@ public class Utilities {
         String item = getActionList()[index];
         return item;
     }
-
-
 }

@@ -25,12 +25,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Random;
 
-public class FenceReceiver extends BroadcastReceiver {
+public class FenceReceiverActivity extends BroadcastReceiver {
     String fenceKey;
     Context context;
     String wheather;
@@ -38,11 +35,9 @@ public class FenceReceiver extends BroadcastReceiver {
     private static final String TAG = "FenceReceiver";
     private PackageManager packageManager = null;
 
-
-    public FenceReceiver(Activity activityContext) {
+    public FenceReceiverActivity(Activity activityContext) {
         context = activityContext;
     }
-
     @Override
     public void onReceive(Context context, Intent intent) {
         FenceState fenceState = FenceState.extract(intent);
@@ -54,7 +49,6 @@ public class FenceReceiver extends BroadcastReceiver {
                 int key = databaseClass.latestPrimarykey();
                 ObjectSituation objectSituation = databaseClass.checkKey_GetData(key);
                 wheatherexists(objectSituation);
-                date_time_exists(timeDate);
                 if ((objectSituation.getAction() == 1) &&(objectSituation.getSwitchActive())) {
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "My Notiication")
                             .setContentTitle("NOTIFICATION")
@@ -77,8 +71,6 @@ public class FenceReceiver extends BroadcastReceiver {
                         Log.i(TAG, "just for checking");
                     }
                 }
-
-
               else{Log.i(TAG, "just for checking");}
                 break;
             case FenceState.FALSE:
@@ -90,32 +82,9 @@ public class FenceReceiver extends BroadcastReceiver {
         }
     }
 
-    public boolean checkDate(TimeDate timeDate) {
-        String date = new SimpleDateFormat("MM-dd-yyyy/HH:mm", Locale.getDefault()).format(new Date());
-        String TimeDate = timeDate.getDate() + "/" + timeDate.getTime();
-
-        if (TimeDate == null) {
-            return true;
-        } else if (date.equals(TimeDate)){
-
-                return true;
-            }
-
-        else{
-            return false;
-
-        }
-    }
     public boolean checkWeather(ObjectSituation objectSituation) {
-        if(objectSituation.getWeather()==0){
-            return true;
-        }
-        else {
-           // String cityname = objectSituation.getCity_name();
-            //String countryname = objectSituation.getCountry_name();
-            String cityname = "lahore";
+             String cityname = "lahore";
             String countryname = "pakistan";
-
             String url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityname + "," + countryname + "uk&APPID=a46e8db6cdb0ae1b25ec614aa18a8c52";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
@@ -126,8 +95,7 @@ public class FenceReceiver extends BroadcastReceiver {
                         JSONArray array = jsonresponce.getJSONArray("weather");
                         JSONObject object = array.getJSONObject(0);
                         wheather = object.getString("main");
-
-
+                        chkweathertxt(objectSituation,wheather);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -140,35 +108,23 @@ public class FenceReceiver extends BroadcastReceiver {
             });
             RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
             requestQueue.add(stringRequest);
-            if (wheather == objectSituation.getWeather_txt()) {
-                return true;
-            }
-            else {
-                return false;
-            }
+             return true;
         }
+    public void wheatherexists(ObjectSituation objectSituation) {
+        if (objectSituation.getWeather() == 0) {
+            return;
 
-    }
-    public void wheatherexists(ObjectSituation objectSituation){
-        if(objectSituation.getWeather()==0){
-            return ;
-
-        }
-        else{
+        } else {
             checkWeather(objectSituation);
         }
     }
-    public void date_time_exists(TimeDate timeDate){
-        if(timeDate.getDate()==""){
-            return ;
-
-        }
-        else{
-            checkDate(timeDate);
+    public boolean chkweathertxt(ObjectSituation objectSituation,String wheather) {
+        if (wheather.equals(objectSituation.getWeather_txt())) {
+            return  true;
+        }else {
+            return false;
         }
     }
-
-
 }
 
 

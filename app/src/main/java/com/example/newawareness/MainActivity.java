@@ -86,10 +86,9 @@ public class MainActivity extends AppCompatActivity  {
     private PendingIntent mPendingIntent;
 
     @Override
-
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.virtual_assistance);
         mdatabaseHelper = new DatabaseClass(this);
         object_situation = new ObjectSituation();
         timeDate = new TimeDate();
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity  {
         FirebaseApp.initializeApp(this);
 
     }
-
     public void getWidgets() {
         tv_Headphone = (TextView) findViewById(R.id.tv_headphone);
         Situation_Name = (EditText) findViewById(R.id.etv_situation_name);
@@ -110,45 +108,35 @@ public class MainActivity extends AppCompatActivity  {
         btn_Action = (Button) findViewById(R.id.btn_Acction);
         btn_addSituation = (Button) findViewById(R.id.btn_addSituation);
         btn_ShowSituations = (Button) findViewById(R.id.btn_showSituations);
-
     }
-
-
     public void Click_Listners() {
         Situation_Name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String SituationName = Situation_Name.getText().toString();
                 object_situation.setSituationname(SituationName);
                 is_situationNameExist = true;
-                //mdatabaseHelper.latestPrimarykey();
-
             }
-
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
-
         btn_addSituation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 object_situation.setSwitchActive(true);
                 ArrayList<AwarenessFence> list = new ArrayList<AwarenessFence>();
-
-                //  if ((is_situationNameExist && is_actionSelected) && (is_activitySelected || is_DateSelected || is_HeadphonESelected || is_locationSelected || is_TimeSelected || is_WeatherSelected
                 if ((is_situationNameExist && is_actionSelected) && (is_activitySelected || is_DateSelected || is_HeadphonESelected || is_locationSelected || is_TimeSelected || is_WeatherSelected
                 )) {
                     if (is_HeadphonESelected) {
-                        list.add(FenceCreateUtilites.createHeadphonrFence(object_situation.getHeadphone() + 1));
+                        list.add(FenceCreateUtilitesActivity.createHeadphonrFence(object_situation.getHeadphone() + 1));
                     }
                     if (is_activitySelected) {
-                        list.add(FenceCreateUtilites.createphysicalactivityFence(getIndexPhysicalActivitydetected(object_situation.getActivity())));
+                        list.add(FenceCreateUtilitesActivity.createphysicalactivityFence(getIndexPhysicalActivitydetected(object_situation.getActivity())));
                     }
                    /* if (is_locationSelected) {
                         list.add(FenceCreateUtilites.createLocationFence(object_situation.getLongi(), object_situation.getLat(), 500L,start
@@ -156,12 +144,11 @@ public class MainActivity extends AppCompatActivity  {
                     }**/
                     if (is_TimeSelected) {
                         long timeinmilli=object_situation.getTime();
-                        list.add(FenceCreateUtilites.createTimeDateFence(object_situation.getTime(), object_situation.getTime()+60000l, MainActivity.this));
+                        list.add(FenceCreateUtilitesActivity.createTimeDateFence(object_situation.getTime(), object_situation.getTime()+60000l, MainActivity.this));
                     }
-                    AwarenessFence finalFence = FenceCreateUtilites.getFinalFence(list);
+                    AwarenessFence finalFence = FenceCreateUtilitesActivity.getFinalFence(list);
                     mdatabaseHelper.insertData(object_situation);
                     registerUpdateFinalFence(finalFence, MainActivity.this);
-
                     Toast.makeText(MainActivity.this, "Situation Saved", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     finishAffinity();
@@ -240,10 +227,8 @@ public class MainActivity extends AppCompatActivity  {
         tv_PhysicalActivity.setOnClickListener(new View.OnClickListener() {
 
             @Override
-
             public void onClick(View view) {
                 permissions();
-
                 AlertDialog.Builder Builder;
                 Builder = new AlertDialog.Builder(MainActivity.this);
                 Builder.setTitle("Select PhysicalActivity State");
@@ -265,7 +250,6 @@ public class MainActivity extends AppCompatActivity  {
             public void onClick(View view) {
                 if (is_DateSelected) {
                 TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMint) {
@@ -274,16 +258,10 @@ public class MainActivity extends AppCompatActivity  {
                         String Time = (hour + ":" + minute);
                         timeDate.setTime(Time);
                         String TimeDate = timeDate.getDate() + "/" + timeDate.getTime();
-
-
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy/HH:mm");
-
-
                         long timeInMillisecond = 0L;
                         LocalDateTime dateTime = LocalDateTime.parse(TimeDate, formatter);
                         timeInMillisecond = dateTime.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli();
-                        //  LocalDateTime localDate = LocalDateTime.parse(TimeDate, dateFormat);
-                        //   long timeInMilliseconds = localDate.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli();
                         timeInMillisecond=timeInMillisecond-5*3600000;
                         btn_Time.setText(Time);
                         object_situation.setTime(timeInMillisecond);
@@ -291,7 +269,6 @@ public class MainActivity extends AppCompatActivity  {
                         is_TimeSelected = true;
                     }
                 };
-
                 TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this, onTimeSetListener, 20, 8, true);
                 timePickerDialog.setTitle("Select Time");
                 timePickerDialog.show();
@@ -300,7 +277,6 @@ public class MainActivity extends AppCompatActivity  {
                 }
             }
         });
-
         btn_Date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -322,7 +298,6 @@ public class MainActivity extends AppCompatActivity  {
                                 object_situation.setDate(date);
                                 timeDate.setDate(date);
                                 is_DateSelected = true;
-
                             } else if (mDay < 10) {
                                 day1 = String.valueOf("0" + mDay);
                                 year = String.valueOf(mYear);
@@ -333,7 +308,6 @@ public class MainActivity extends AppCompatActivity  {
                                 object_situation.setDate(date);
                                 timeDate.setDate(date);
                                 is_DateSelected = true;
-
                             } else if (mMonth < 10) {
                                 month1 = String.valueOf("0" + mMonth);
                                 year = String.valueOf(mYear);
@@ -344,8 +318,6 @@ public class MainActivity extends AppCompatActivity  {
                                 object_situation.setDate(date);
                                 timeDate.setDate(date);
                                 is_DateSelected = true;
-
-
                             } else {
                                 month1 = String.valueOf(mYear);
                                 year = String.valueOf(mMonth);
@@ -359,7 +331,6 @@ public class MainActivity extends AppCompatActivity  {
                             is_DateSelected = true;
                         }
                     };
-
                     Calendar calendar = Calendar.getInstance();
                     int mYear = calendar.get(Calendar.YEAR);
                     int mMonth = calendar.get(Calendar.MONTH);
@@ -367,18 +338,14 @@ public class MainActivity extends AppCompatActivity  {
                     DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, onDateSetListener, mYear, mMonth, mDay);
                     datePickerDialog.setTitle("Select Date");
                     datePickerDialog.show();
-
             }
         });
-
         tv_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                startActivityForResult(intent, 1);
-            }
+                startActivityForResult(intent, 1); }
         });
-
         btn_Action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -393,9 +360,7 @@ public class MainActivity extends AppCompatActivity  {
                         if (getActionItemFromIndexNumber(i) == getActionItemFromIndexNumber(0)) {
                             Intent intent = new Intent(MainActivity.this, InstalledAppsActivity.class);
                             startActivityForResult(intent, 5);
-
                         }
-
                         if (getActionItemFromIndexNumber(i) == getActionItemFromIndexNumber(1)) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                             builder.setTitle("Please Set Your Notification");
@@ -412,39 +377,30 @@ public class MainActivity extends AppCompatActivity  {
                             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
+                                    dialog.cancel(); }
                             });
                             builder.show();
                             btn_Action.setText("Notification");
                             is_actionSelected = true;
-
                         }
                     }
                 });
                 AlertDialog alert = builder.create();
                 alert.show();
             }
-
         });
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == 5) {
             String nameOfApp = data.getStringExtra("nameOfApp");
             String nameOfAppPakage = data.getStringExtra("nameOfAppPakage");
             object_situation.setPakagename(nameOfAppPakage);
-
             btn_Action.setText("Open" + " " + nameOfApp);
             object_situation.setAppname(nameOfApp);
             is_actionSelected = true;
-
-
         }
-
         if (resultCode == 1) {
             String Location = data.getStringExtra("nameOfLocation");
             Double Lat = data.getDoubleExtra("Lat", 0);
@@ -468,16 +424,13 @@ public class MainActivity extends AppCompatActivity  {
             is_locationSelected = true;
         }
     }
-
     public void registerUpdateFinalFence(AwarenessFence FinalFence, Context context) {
-        FenceReceiver mFenceReceiver = new FenceReceiver(this);
-        //find latest primary key from DDB
+        FenceReceiverActivity mFenceReceiver = new FenceReceiverActivity(this);
         mPendingIntent = PendingIntent.getBroadcast(context, 0,
                 new Intent(FENCE_RECEIVER_ACTION), 0);
         registerReceiver(mFenceReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
         Awareness.getFenceClient(context).updateFences(new FenceUpdateRequest.Builder()
                 .addFence(String.valueOf(mdatabaseHelper.latestPrimarykey()), FinalFence, mPendingIntent)
-                //.addFence("dd", FinalFence, mPendingIntent)
                 .build())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -492,8 +445,6 @@ public class MainActivity extends AppCompatActivity  {
                     }
                 });
     }
-
-
        public void checkExistanceforphysicalAction(){
         if(is_activitySelected){
             object_situation.setActivity(-1);
@@ -508,13 +459,8 @@ public class MainActivity extends AppCompatActivity  {
             return;
        }}
        public void permissions(){
-
-           if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
                    != PackageManager.PERMISSION_GRANTED) {
-               // Permission is not granted
-               /*ActivityCompat.requestPermissions(this,
-                       arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
-                       MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION)**/
            }
        }
 }

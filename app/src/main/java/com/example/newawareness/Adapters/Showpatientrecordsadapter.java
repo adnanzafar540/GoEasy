@@ -14,39 +14,32 @@ import com.example.newawareness.R;
 
 import java.util.List;
 
-public class show_patient_records_adapter extends RecyclerView.Adapter<show_patient_records_adapter.ViewHolder> {
+public class Showpatientrecordsadapter extends RecyclerView.Adapter<Showpatientrecordsadapter.ViewHolder> {
     List<Dataholder> list;
     Context context;
-    public show_patient_records_adapter( List<Dataholder> list,Context context) {
+    public Showpatientrecordsadapter(List<Dataholder> list, Context context) {
         this.context=context;
         this.list=list;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-
         View view = inflater.inflate(R.layout.show_records_itemview, parent, false);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Dataholder dataholder=list.get(position);
         holder.date.setText(String.valueOf(dataholder.getDate()));
         holder.patient_name.setText(dataholder.getPatientName());
-        holder.doctor_name.setText(dataholder.getDoctorName());
-        holder.desccription.setText(dataholder.getDescription());
+        holder.doctor_name.setText(dataholder.getDoctorName());holder.desccription.setText(dataholder.getDescription());
 
     }
-
     @Override
     public int getItemCount() {
         return list.size();
     }
-
-
     public class ViewHolder extends RecyclerView.ViewHolder{
         EditText date;
         EditText patient_name;
@@ -54,11 +47,10 @@ public class show_patient_records_adapter extends RecyclerView.Adapter<show_pati
         EditText desccription;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            date = itemView.findViewById(R.id.date_record);
-            patient_name = itemView.findViewById(R.id.patient_name_record);
-            doctor_name = itemView.findViewById(R.id.doctor_name_record);
-            desccription=itemView.findViewById(R.id.description_record);
-
+            date = itemView.findViewById(R.id.tv_patient_record_date);
+            patient_name = itemView.findViewById(R.id.tv_patient_record_patient_name);
+            doctor_name = itemView.findViewById(R.id.tv_patient_record_doctor_name);
+            desccription=itemView.findViewById(R.id.tv_patient_record_description);
         }
     }
 }

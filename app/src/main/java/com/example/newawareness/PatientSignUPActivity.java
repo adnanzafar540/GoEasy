@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 
 public class
 
-SignUP extends AppCompatActivity {
+PatientSignUPActivity extends AppCompatActivity {
     Button submit;
     TextView email;
     TextView Password;
@@ -29,12 +29,11 @@ SignUP extends AppCompatActivity {
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup);
-        email = (TextView) findViewById(R.id.email1);
-        Password = (TextView) findViewById(R.id.password1);
-        submit = (Button) findViewById(R.id.submitt1);
+        setContentView(R.layout.patient_signup);
+        email = (TextView) findViewById(R.id.et_singup_email);
+        Password = (TextView) findViewById(R.id.et_singup_password);
+        submit = (Button) findViewById(R.id.btn_singup_register);
     }
-
     public void singup(View view) {
         String Email = email.getText().toString();
         final String Pass = Password.getText().toString();
@@ -43,32 +42,31 @@ SignUP extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (TextUtils.isEmpty(Pass)) {
             Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
             return;
         }
-        mAuth.createUserWithEmailAndPassword(Email,Pass)
-                .addOnCompleteListener(SignUP.this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(Email, Pass)
+                .addOnCompleteListener(PatientSignUPActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Toast.makeText(SignUP.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PatientSignUPActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                         if (!task.isSuccessful()) {
-                            FirebaseAuthException e = (FirebaseAuthException)task.getException();
-                            Toast.makeText(SignUP.this, "Failed Registration: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            FirebaseAuthException e = (FirebaseAuthException) task.getException();
+                            Toast.makeText(PatientSignUPActivity.this, "Failed Registration: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         } else {
-                            startActivity(new Intent(SignUP.this,  Show_Add_records.class));
+                            startActivity(new Intent(PatientSignUPActivity.this, ShowORAddRecordsActivity.class));
                             finish();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(SignUP.this, "createUserWithEmail:onComplete:" + e.toString(), Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(PatientSignUPActivity.this, "createUserWithEmail:onComplete:" + e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
-    }     }
+    }
+}
 
 

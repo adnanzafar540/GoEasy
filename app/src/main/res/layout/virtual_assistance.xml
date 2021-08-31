@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <EditText
             android:id="@+id/etv_situation_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="2dp"
             android:layout_marginLeft="@dimen/linear_layout_margin_left"
+            android:layout_marginTop="2dp"
             android:layout_marginRight="@dimen/linear_layout_margin_Right"
             android:background="@color/MainBackground_Color"
             android:hint="@string/Situation_Name"
@@ -25,7 +22,6 @@
             android:textAlignment="center"
             android:textColor="@color/Text_color"
             android:textSize="@dimen/etv_situation_name_textsize"></EditText>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,19 +30,16 @@
             android:layout_marginRight="@dimen/linear_layout_margin_Right"
             android:background="@color/MainBackground_Color"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <ImageView
                     android:layout_width="@dimen/first_page_drawable_width"
                     android:layout_height="@dimen/first_page_drawable_width"
                     android:layout_marginLeft="@dimen/imageview_margin_left"
                     android:layout_marginTop="@dimen/imageview_margin_top"
                     android:src="@drawable/headphone"></ImageView>
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,7 +48,6 @@
                     android:textColor="@color/Text_color"
                     android:textSize="@dimen/textview_text_size"></TextView>
             </LinearLayout>
-
             <TextView
                 android:id="@+id/tv_headphone"
                 android:layout_width="match_parent"
@@ -65,7 +57,6 @@
                 android:textColor="@color/miniText_color"
                 android:textSize="@dimen/chose_state_textview_text_size"></TextView>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,19 +65,16 @@
             android:layout_marginRight="@dimen/linear_layout_margin_Right"
             android:background="@color/MainBackground_Color"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <ImageView
                     android:layout_width="@dimen/first_page_drawable_width"
                     android:layout_height="@dimen/first_page_drawable_width"
                     android:layout_marginLeft="@dimen/imageview_margin_left"
                     android:layout_marginTop="@dimen/imageview_margin_top"
                     android:src="@drawable/weather"></ImageView>
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -95,7 +83,6 @@
                     android:textColor="@color/Text_color"
                     android:textSize="@dimen/textview_text_size"></TextView>
             </LinearLayout>
-
             <TextView
                 android:id="@+id/tv_WeatherState"
                 android:layout_width="match_parent"
@@ -105,7 +92,6 @@
                 android:textColor="@color/miniText_color"
                 android:textSize="@dimen/chose_state_textview_text_size"></TextView>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,19 +100,16 @@
             android:layout_marginRight="@dimen/linear_layout_margin_Right"
             android:background="@color/MainBackground_Color"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <ImageView
                     android:layout_width="@dimen/first_page_drawable_width"
                     android:layout_height="@dimen/first_page_drawable_width"
                     android:layout_marginLeft="@dimen/imageview_margin_left"
                     android:layout_marginTop="@dimen/imageview_margin_top"
                     android:src="@drawable/location"></ImageView>
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -135,7 +118,6 @@
                     android:textColor="@color/Text_color"
                     android:textSize="@dimen/textview_text_size"></TextView>
             </LinearLayout>
-
             <TextView
                 android:id="@+id/tv_LocationState"
                 android:layout_width="match_parent"
@@ -145,7 +127,6 @@
                 android:textColor="#e6e600"
                 android:textSize="@dimen/chose_state_textview_text_size"></TextView>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,19 +135,16 @@
             android:layout_marginRight="@dimen/linear_layout_margin_Right"
             android:background="@color/MainBackground_Color"
             android:orientation="vertical">>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <ImageView
                     android:layout_width="@dimen/first_page_drawable_width"
                     android:layout_height="@dimen/first_page_drawable_width"
                     android:layout_marginLeft="@dimen/imageview_margin_left"
                     android:layout_marginTop="@dimen/imageview_margin_top"
                     android:src="@drawable/physicalstate">></ImageView>
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -176,7 +154,6 @@
                     android:textColor="@color/Text_color"
                     android:textSize="@dimen/textview_text_size"></TextView>
             </LinearLayout>
-
             <TextView
                 android:id="@+id/tv_PhysicalActivityState"
                 android:layout_width="match_parent"
@@ -186,7 +163,6 @@
                 android:textColor="@color/miniText_color"
                 android:textSize="@dimen/chose_state_textview_text_size"></TextView>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -195,19 +171,16 @@
             android:layout_marginRight="@dimen/linear_layout_margin_Right"
             android:background="@color/MainBackground_Color"
             android:orientation="vertical">>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:orientation="horizontal">
-
                 <ImageView
                     android:layout_width="@dimen/first_page_drawable_width"
                     android:layout_height="@dimen/first_page_drawable_width"
                     android:layout_marginLeft="@dimen/imageview_margin_left"
                     android:layout_marginTop="@dimen/imageview_margin_top"
                     android:src="@drawable/calendern">></ImageView>
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -215,38 +188,26 @@
                     android:text="@string/Time_state"
                     android:textColor="@color/Text_color"
                     android:textSize="@dimen/textview_text_size"></TextView>
-
                 <Button
                     android:id="@+id/btn_date"
                     android:layout_width="80dp"
                     android:layout_height="50dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@drawable/button_rounded"
-
-                    android:text="DATE"
                     android:layout_marginLeft="8dp"
-                    >>
-                </Button>
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="0dp"
+                    android:background="@drawable/button_rounded"
+                    android:text="DATE">></Button>
                 <Button
                     android:id="@+id/btn_time"
                     android:layout_width="80dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="@dimen/button_margin_left"
-                    android:layout_marginRight="3dp"
                     android:layout_marginTop="2dp"
-
-
-
-                    android:text="Time"
+                    android:layout_marginRight="3dp"
                     android:background="@drawable/button_rounded"
-
-
-
-                    >
-                </Button>
+                    android:text="Time"
+                    ></Button>
             </LinearLayout>
-
         </LinearLayout>
         <Button
             android:id="@+id/btn_Acction"
@@ -257,9 +218,7 @@
             android:background="@drawable/button_rounded"
             android:paddingTop="@dimen/button_padding_top"
             android:text="@string/Select_Action"
-            android:textSize="@dimen/button_text_size"
-            >
-
+            android:textSize="@dimen/button_text_size">
         </Button>
         <Button
             android:id="@+id/btn_addSituation"
@@ -278,10 +237,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/button_margin_top"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/button_rounded"
             android:paddingTop="@dimen/button_padding_top"
             android:text="SHOW SITUATIONS"
-            android:layout_marginBottom="10dp"
             android:textSize="@dimen/button_text_size">
             >
         </Button>

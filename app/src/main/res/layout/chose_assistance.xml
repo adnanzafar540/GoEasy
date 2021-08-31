@@ -2,48 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/MainBackground_Color">
-
+    android:background="@color/MainBackground_Color"
+    android:orientation="horizontal">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:orientation="vertical">
-        >
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:paddingLeft="10dp"
-            android:text="Please select one state"
-
+            android:text="Please Select Assistant."
             android:textSize="30dp"
             android:textStyle="bold"></TextView>
-
-        <EditText
-            android:id="@+id/Addrecord"
+        <Button
+            android:id="@+id/virtual"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:background="@drawable/button_rounded"
-            android:gravity="center"
-            android:text="Add Records"
-            android:textSize="35dp">
-
-        </EditText>
-
-        <EditText
-            android:id="@+id/showrecord"
+            android:text="Virtual Assistant"
+            android:textSize="@dimen/button_text_size">
+        </Button>
+        <Button
+            android:id="@+id/Health"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/button_rounded"
-            android:gravity="center"
-            android:text="Show Records"
-            android:textSize="35dp"
-
-            ></EditText>
+            android:text="Health Assistant"
+            android:textSize="@dimen/button_text_size"
+            ></Button>
     </LinearLayout>
-
 </LinearLayout>

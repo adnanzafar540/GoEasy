@@ -1,138 +1,95 @@
-<LinearLayout
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:background="@color/MainBackground_Color"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginTop="20dp"
     android:layout_marginRight="5dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+    android:background="@color/MainBackground_Color"
+    android:orientation="vertical">
     <TextView
+        android:id="@+id/tv_Situation_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-
-        android:id="@+id/Situationname_tv"
-        android:text="@string/Open_Gallery"
-        android:textColor="@color/Text_color"
-        android:textSize="@dimen/savedsitautions__Text_Size"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:gravity="center_horizontal">
-
-    </TextView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-
-        android:id="@+id/Action_tv"
+        android:gravity="center_horizontal"
         android:text="@string/Open_Gallery"
         android:textAlignment="center"
         android:textColor="@color/Text_color"
         android:textSize="@dimen/savedsitautions__Text_Size"
-
-        android:gravity="center_horizontal">
-
-    </TextView>
-
+        android:textStyle="bold"></TextView>
+    <TextView
+        android:id="@+id/tv_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/Open_Gallery"
+        android:textAlignment="center"
+        android:textColor="@color/Text_color"
+        android:textSize="@dimen/savedsitautions__Text_Size"></TextView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-
+        android:orientation="horizontal">
         <ImageView
-
-
             android:layout_width="@dimen/savedsituation_drawable_width"
             android:layout_height="@dimen/savedsituation_drawable_height"
-            android:src="@drawable/headphone"
-            android:paddingTop="@dimen/savedsitautions_imageview_padding_top">
-
-        </ImageView>
+            android:paddingTop="@dimen/savedsitautions_imageview_padding_top"
+            android:src="@drawable/headphone"></ImageView>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="@dimen/savedsitautions_layout_margin_left">
-
-
+            android:layout_marginLeft="@dimen/savedsitautions_layout_margin_left"
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/headphon_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/plug_StateIn"
-            android:textColor="@color/Text_color"
-            android:textSize="@dimen/savedsitautions__Text_Size">
-
-        </TextView>
-    </LinearLayout>
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plug_StateIn"
+                android:textColor="@color/Text_color"
+                android:textSize="@dimen/savedsitautions__Text_Size"></TextView>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <ImageView
-
-
             android:layout_width="@dimen/savedsituation_drawable_width"
             android:layout_height="@dimen/savedsituation_drawable_height"
-            android:src="@drawable/weather"
-            android:paddingTop="@dimen/savedsitautions_imageview_padding_top">
-
-        </ImageView>
+            android:paddingTop="@dimen/savedsitautions_imageview_padding_top"
+            android:src="@drawable/weather"></ImageView>
         <TextView
             android:id="@+id/Weather_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/savedsitautions_layout_margin_left"
             android:text="@string/Weather_State"
             android:textColor="@color/Text_color"
-            android:layout_marginLeft="@dimen/savedsitautions_layout_margin_left"
-            android:textSize="@dimen/savedsitautions__Text_Size">
-
-        </TextView>
-
+            android:textSize="@dimen/savedsitautions__Text_Size"></TextView>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <ImageView
-
-
             android:layout_width="@dimen/savedsituation_drawable_width"
             android:layout_height="@dimen/savedsituation_drawable_height"
-            android:src="@drawable/physicalstate"
-            android:paddingTop="@dimen/savedsitautions_imageview_padding_top">
-
-        </ImageView>
+            android:paddingTop="@dimen/savedsitautions_imageview_padding_top"
+            android:src="@drawable/physicalstate"></ImageView>
         <TextView
             android:id="@+id/PhysicalActivity_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/savedsitautions_layout_margin_left"
             android:text="@string/PhysicalActivity_State"
             android:textColor="@color/Text_color"
-            android:layout_marginLeft="@dimen/savedsitautions_layout_margin_left"
-            android:textSize="@dimen/savedsitautions__Text_Size">
-
-        </TextView>
-
+            android:textSize="@dimen/savedsitautions__Text_Size"></TextView>
     </LinearLayout>
     <Switch
         android:id="@+id/IsSwitchActive"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/savedsitautions_Switch_margin_left"
-    android:gravity="bottom"
-
-    android:shadowColor="@color/miniText_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/savedsitautions_Switch_margin_left"
         android:layout_marginBottom="10dp"
-
-    ></Switch>
+        android:gravity="bottom"
+        android:shadowColor="@color/miniText_color"></Switch>
 </LinearLayout>

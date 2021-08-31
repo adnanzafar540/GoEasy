@@ -5,16 +5,19 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.newawareness.Objects.ObjectSituation;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 public class DatabaseClass extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Database";
     public static final String TABLE_NAME = "particulars_table";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     public static final String COL_1 = "Headphone_State";
     public static final String COL_2 = "Wheather_State";
     public static final String COL_3 = "Physical_State";
@@ -29,14 +32,9 @@ public class DatabaseClass extends SQLiteOpenHelper {
     public static final String COL_12 = "checkSwitch";
     public static final String COL_13 = "PakageName";
     public static final String COL_14 = "wheathertxt";
-
-
     public DatabaseClass(Context context) {
-
         super(context, DATABASE_NAME, null, 2);
     }
-
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         String Table = "CREATE TABLE " + TABLE_NAME +
@@ -46,13 +44,11 @@ public class DatabaseClass extends SQLiteOpenHelper {
                 + " VARCHAR," + COL_7 + " VARCHAR," + COL_8 + " VARCHAR," + COL_9 +" VARCHAR," + COL_10 +" VARCHAR," + COL_11+ " VARCHAR," +COL_12 +" VARCHAR," +COL_13 +" VARCHAR,"+ COL_14 + " VARCHAR);";
         db.execSQL(Table);
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
-
     public int latestPrimarykey() {
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -65,7 +61,6 @@ public class DatabaseClass extends SQLiteOpenHelper {
         return latestKey ;
     }
     public ObjectSituation checkKey_GetData(int key){
-
         SQLiteDatabase db = this.getWritableDatabase();
         ObjectSituation object_situation=new ObjectSituation();
         Cursor cursor = null;
@@ -86,17 +81,13 @@ public class DatabaseClass extends SQLiteOpenHelper {
             boolean value = cursor.getInt(12) > 0;
             object_situation.setSwitchActive(value);
             object_situation.setPakagename(cursor.getString(13));
-            object_situation.setWeather_txt(cursor.getString(14));
-
+            String wethertxt=getString(cursor,14);
+            object_situation.setWeather_txt(wethertxt);
         }
         return object_situation;
-
     }
-
     public boolean insertData(ObjectSituation object_situation) {
-
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, object_situation.getHeadphone());
         contentValues.put(COL_2, object_situation.getWeather());
@@ -112,14 +103,12 @@ public class DatabaseClass extends SQLiteOpenHelper {
         contentValues.put(COL_12, object_situation.getSwitchActive());
         contentValues.put(COL_13, object_situation.getPakagename());
         contentValues.put(COL_14, object_situation.getWeather_txt());
-
         long result = db.insert(TABLE_NAME, null, contentValues);
         if (result == -1)
             return false;
         else
             return true;
     }
-
     public List<ObjectSituation> readAllData() {
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -144,6 +133,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
             boolean value = cursor.getInt(12) > 0;
             object_situation.setSwitchActive(value);
             object_situation.setPakagename(cursor.getString(13));
+            object_situation.setWeather_txt(cursor.getString(14));
             list.add(object_situation);
         }
         return list;
@@ -159,6 +149,22 @@ public class DatabaseClass extends SQLiteOpenHelper {
 
 
     }
-
+    public String getString( Cursor cursor, int columnIndex )
+    {
+        String value = "";
+        try
+        {
+            if ( !cursor.isNull( columnIndex ) )
+            {
+                value = cursor.getString( columnIndex );
+               // value=value+"why";
+            }
+        }
+        catch ( Throwable tr )
+        {
+            Log.d(TAG, "getString:exception throwed ");;
+        }
+        return value;
+    }
 }
 
