@@ -3,7 +3,6 @@ package com.example.newawareness;
 public class TimeDate {
     String time;
     String date;
-
     public String getTime() {
         return time;
     }
