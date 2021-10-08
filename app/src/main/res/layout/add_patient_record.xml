@@ -37,7 +37,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/rectangularback"
             android:gravity="center"
-            android:hint="Enter record no"
+            android:hint="Enter Record #"
             android:inputType="date"
             android:textSize="30dp" />
         <EditText

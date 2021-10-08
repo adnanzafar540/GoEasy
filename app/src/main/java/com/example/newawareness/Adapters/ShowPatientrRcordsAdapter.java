@@ -14,10 +14,10 @@ import com.example.newawareness.R;
 
 import java.util.List;
 
-public class Showpatientrecordsadapter extends RecyclerView.Adapter<Showpatientrecordsadapter.ViewHolder> {
+public class ShowPatientrRcordsAdapter extends RecyclerView.Adapter<ShowPatientrRcordsAdapter.ViewHolder> {
     List<Dataholder> list;
     Context context;
-    public Showpatientrecordsadapter(List<Dataholder> list, Context context) {
+    public ShowPatientrRcordsAdapter(List<Dataholder> list, Context context) {
         this.context=context;
         this.list=list;
     }

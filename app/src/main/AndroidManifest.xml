@@ -54,7 +54,7 @@
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".AddPatientRecordsActivity">  </activity>
+        <activity android:name=".Activities.AddPatientRecordsActivity">  </activity>
         <activity android:name=".ShowORAddRecordsActivity">  </activity>
         <activity android:name=".ChooseAssistanceActivity">
 

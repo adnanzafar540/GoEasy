@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.newawareness.Adapters.Showpatientrecordsadapter;
+import com.example.newawareness.Adapters.ShowPatientrRcordsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +25,7 @@ public class ShowPatientRecordsActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
     String  user= FirebaseAuth.getInstance().getUid();
     DatabaseReference root=firebaseDatabase.getReference("patienthistory");
-    Showpatientrecordsadapter show_patient_records_adapter;
+    ShowPatientrRcordsAdapter show_patient_records_adapter;
     ArrayList<Dataholder> list;
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +35,7 @@ public class ShowPatientRecordsActivity extends AppCompatActivity {
                 new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         list=new ArrayList<>();
-        show_patient_records_adapter = new Showpatientrecordsadapter(list,this);
+        show_patient_records_adapter = new ShowPatientrRcordsAdapter(list,this);
         recyclerView.setAdapter(show_patient_records_adapter);
         root.orderByChild("email").equalTo(PatientLoginActivity.Email).addValueEventListener(new ValueEventListener() {
             @Override

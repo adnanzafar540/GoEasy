@@ -83,31 +83,14 @@ public class PatientLoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void onBackPressed()
+    { Intent intent =
+            new Intent(PatientLoginActivity.this, ChooseAssistanceActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 }

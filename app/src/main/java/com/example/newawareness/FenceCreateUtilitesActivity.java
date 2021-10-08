@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import static com.google.android.gms.awareness.fence.DetectedActivityFence.starting;
 
+
 public class FenceCreateUtilitesActivity {
 
     public static AwarenessFence createHeadphonrFence(int state) {
